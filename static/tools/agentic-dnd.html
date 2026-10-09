@@ -1,0 +1,3955 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agentic D&D — The Multiverse School</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+/* ================================================================
+   Design tokens — dark first
+   ================================================================ */
+:root {
+  --bg: #121318;
+  --bg-warm: #161720;
+  --surface: #1e1f26;
+  --surface-2: #252630;
+  --surface-3: #2d2e3a;
+  --border: #2e3040;
+  --border-light: #3d3f52;
+  --border-subtle: #232536;
+
+  --ink: #e8e6e2;
+  --ink-secondary: #bbb8b2;
+  --ink-muted: #9a978f;
+  --ink-dim: #6b6862;
+
+  --gold: #d4a017;
+  --gold-light: #f0c850;
+  --gold-bg: rgba(212, 160, 23, 0.10);
+  --gold-border: rgba(212, 160, 23, 0.30);
+  --gold-glow: rgba(212, 160, 23, 0.06);
+
+  --cyan: #22d3ee;
+  --cyan-bg: rgba(34, 211, 238, 0.08);
+  --cyan-border: rgba(34, 211, 238, 0.25);
+
+  --purple: #a855f7;
+  --purple-light: #c084fc;
+  --purple-bg: rgba(168, 85, 247, 0.10);
+  --purple-border: rgba(168, 85, 247, 0.30);
+
+  --green: #34d399;
+  --green-bg: rgba(52, 211, 153, 0.12);
+  --green-border: rgba(52, 211, 153, 0.30);
+
+  --amber: #fbbf24;
+  --amber-bg: rgba(251, 191, 36, 0.12);
+  --amber-border: rgba(251, 191, 36, 0.30);
+
+  --red: #f87171;
+  --red-bg: rgba(248, 113, 113, 0.12);
+  --red-border: rgba(248, 113, 113, 0.30);
+
+  --blue: #60a5fa;
+  --orange: #fb923c;
+  --pink: #f472b6;
+
+  --font: 'Source Sans 3', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: 'Space Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --radius: 10px;
+  --radius-sm: 6px;
+  --radius-lg: 14px;
+
+  /* Tool call accent stripes */
+  --tool-dice: #34d399;
+  --tool-action: #fb923c;
+  --tool-memory: #a855f7;
+  --tool-notes: #60a5fa;
+  --tool-scene: #fbbf24;
+  --tool-npc: #f472b6;
+  --tool-rule: #22d3ee;
+
+  /* Player colors */
+  --player-1: #60a5fa;
+  --player-2: #f87171;
+  --player-3: #34d399;
+  --player-4: #fbbf24;
+  --player-5: #c084fc;
+
+  /* Parchment for character sheets */
+  --parchment: #1d1e28;
+  --parchment-border: #342f26;
+  --parchment-ink: #d4c9a8;
+}
+
+/* ----------------------------------------------------------------
+   Light theme
+   ---------------------------------------------------------------- */
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --bg: #f5f3ef;
+    --bg-warm: #f0ede6;
+    --surface: #ffffff;
+    --surface-2: #f7f5f0;
+    --surface-3: #edeae3;
+    --border: #ddd9d0;
+    --border-light: #ccc8bf;
+    --border-subtle: #e8e4db;
+    --ink: #1a1a1a;
+    --ink-secondary: #444;
+    --ink-muted: #666;
+    --ink-dim: #999;
+    --gold: #a06800;
+    --gold-light: #c48800;
+    --gold-bg: rgba(160, 104, 0, 0.08);
+    --gold-border: rgba(160, 104, 0, 0.25);
+    --gold-glow: rgba(160, 104, 0, 0.04);
+    --cyan: #0891b2;
+    --cyan-bg: rgba(8, 145, 178, 0.08);
+    --cyan-border: rgba(8, 145, 178, 0.20);
+    --purple: #7c3aed;
+    --purple-light: #8b5cf6;
+    --purple-bg: rgba(124, 58, 237, 0.08);
+    --purple-border: rgba(124, 58, 237, 0.25);
+    --green: #059669;
+    --green-bg: rgba(5, 150, 105, 0.08);
+    --green-border: rgba(5, 150, 105, 0.20);
+    --amber: #d97706;
+    --amber-bg: rgba(217, 119, 6, 0.08);
+    --amber-border: rgba(217, 119, 6, 0.20);
+    --red: #dc2626;
+    --red-bg: rgba(220, 38, 38, 0.08);
+    --red-border: rgba(220, 38, 38, 0.20);
+    --blue: #2563eb;
+    --orange: #ea580c;
+    --pink: #db2777;
+    --tool-dice: #059669;
+    --tool-action: #ea580c;
+    --tool-memory: #7c3aed;
+    --tool-notes: #2563eb;
+    --tool-scene: #d97706;
+    --tool-npc: #db2777;
+    --tool-rule: #0891b2;
+    --player-1: #2563eb;
+    --player-2: #dc2626;
+    --player-3: #059669;
+    --player-4: #d97706;
+    --player-5: #7c3aed;
+    --parchment: #faf7f0;
+    --parchment-border: #e0d8c8;
+    --parchment-ink: #5a4a2a;
+  }
+}
+:root[data-theme="light"] {
+  --bg: #f5f3ef;
+  --bg-warm: #f0ede6;
+  --surface: #ffffff;
+  --surface-2: #f7f5f0;
+  --surface-3: #edeae3;
+  --border: #ddd9d0;
+  --border-light: #ccc8bf;
+  --border-subtle: #e8e4db;
+  --ink: #1a1a1a;
+  --ink-secondary: #444;
+  --ink-muted: #666;
+  --ink-dim: #999;
+  --gold: #a06800;
+  --gold-light: #c48800;
+  --gold-bg: rgba(160, 104, 0, 0.08);
+  --gold-border: rgba(160, 104, 0, 0.25);
+  --gold-glow: rgba(160, 104, 0, 0.04);
+  --cyan: #0891b2;
+  --cyan-bg: rgba(8, 145, 178, 0.08);
+  --cyan-border: rgba(8, 145, 178, 0.20);
+  --purple: #7c3aed;
+  --purple-light: #8b5cf6;
+  --purple-bg: rgba(124, 58, 237, 0.08);
+  --purple-border: rgba(124, 58, 237, 0.25);
+  --green: #059669;
+  --green-bg: rgba(5, 150, 105, 0.08);
+  --green-border: rgba(5, 150, 105, 0.20);
+  --amber: #d97706;
+  --amber-bg: rgba(217, 119, 6, 0.08);
+  --amber-border: rgba(217, 119, 6, 0.20);
+  --red: #dc2626;
+  --red-bg: rgba(220, 38, 38, 0.08);
+  --red-border: rgba(220, 38, 38, 0.20);
+  --blue: #2563eb;
+  --orange: #ea580c;
+  --pink: #db2777;
+  --tool-dice: #059669;
+  --tool-action: #ea580c;
+  --tool-memory: #7c3aed;
+  --tool-notes: #2563eb;
+  --tool-scene: #d97706;
+  --tool-npc: #db2777;
+  --tool-rule: #0891b2;
+  --player-1: #2563eb;
+  --player-2: #dc2626;
+  --player-3: #059669;
+  --player-4: #d97706;
+  --player-5: #7c3aed;
+  --parchment: #faf7f0;
+  --parchment-border: #e0d8c8;
+  --parchment-ink: #5a4a2a;
+}
+
+/* ================================================================
+   Reset & base
+   ================================================================ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { height: 100%; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font);
+  min-height: 100vh;
+  line-height: 1.55;
+  font-size: 15px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+button { cursor: pointer; font-family: inherit; border: none; background: none; color: inherit; }
+input, textarea { font-family: inherit; }
+a { color: var(--cyan); text-decoration: none; }
+a:hover { text-decoration: underline; }
+:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }
+::selection { background: rgba(212, 160, 23, 0.3); }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--border-light); }
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ================================================================
+   Top bar
+   ================================================================ */
+.top-bar {
+  position: sticky; top: 0; z-index: 50;
+  background: rgba(18, 19, 24, 0.88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 1.25rem;
+  height: 54px;
+  display: flex; align-items: center; gap: 1rem;
+}
+.top-bar__title {
+  font-family: var(--font-mono);
+  font-weight: 700; font-size: 0.95rem; white-space: nowrap;
+  overflow: hidden; text-overflow: ellipsis; min-width: 0;
+  color: var(--ink);
+}
+.top-bar__round {
+  font-family: var(--font-mono); font-size: 0.75rem; color: var(--ink-muted);
+  white-space: nowrap;
+}
+.top-bar__status {
+  font-family: var(--font-mono);
+  font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;
+  padding: 0.2rem 0.6rem; border-radius: 999px; white-space: nowrap;
+}
+.top-bar__status[data-status="active"] { background: var(--green-bg); color: var(--green); border: 1px solid var(--green-border); }
+.top-bar__status[data-status="paused"] { background: var(--amber-bg); color: var(--amber); border: 1px solid var(--amber-border); }
+.top-bar__status[data-status="compacting"] { background: var(--purple-bg); color: var(--purple); border: 1px solid var(--purple-border); }
+.top-bar__status[data-status="ended"] { background: var(--red-bg); color: var(--red); border: 1px solid var(--red-border); }
+.top-bar__spacer { flex: 1; }
+.top-bar__code {
+  font-family: var(--font-mono); font-size: 0.72rem; color: var(--gold);
+  background: var(--gold-bg); border: 1px solid var(--gold-border);
+  padding: 0.2rem 0.6rem; border-radius: var(--radius-sm);
+  letter-spacing: 0.12em; cursor: pointer;
+  transition: background 0.15s;
+}
+.top-bar__code:hover { background: rgba(212, 160, 23, 0.18); }
+
+/* ================================================================
+   Layout — three panels
+   ================================================================ */
+.app { display: none; height: calc(100vh - 54px); }
+.app.active { display: flex; }
+
+.panel-left {
+  width: 270px; min-width: 230px; border-right: 1px solid var(--border);
+  display: flex; flex-direction: column; overflow: hidden;
+  background: var(--bg-warm);
+}
+.panel-center {
+  flex: 1; min-width: 0; display: flex; flex-direction: column; overflow: hidden;
+}
+.panel-right {
+  width: 270px; min-width: 230px; border-left: 1px solid var(--border);
+  display: flex; flex-direction: column; overflow-y: auto;
+  padding: 1rem 1rem 4rem;
+  background: var(--bg-warm);
+}
+
+/* ================================================================
+   Mobile tabs
+   ================================================================ */
+.mobile-tabs {
+  display: none;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+}
+.mobile-tabs button {
+  flex: 1; padding: 0.7rem; font-size: 0.8rem; font-weight: 700;
+  color: var(--ink-muted); border-bottom: 2px solid transparent;
+  text-align: center; transition: color 0.15s;
+  font-family: var(--font-mono); letter-spacing: 0.02em;
+}
+.mobile-tabs button.active { color: var(--gold); border-bottom-color: var(--gold); }
+
+@media (max-width: 768px) {
+  .mobile-tabs { display: flex; }
+  .app.active { flex-direction: column; }
+  .panel-left, .panel-right { display: none; width: 100%; border: none; }
+  .panel-center { display: none; }
+  .panel-left.mobile-active,
+  .panel-center.mobile-active,
+  .panel-right.mobile-active { display: flex; flex: 1; overflow: auto; }
+  .panel-right.mobile-active { padding: 1rem; }
+  .next-turn-btn { min-height: 52px; font-size: 1.1rem; }
+}
+
+/* ================================================================
+   Setup screen
+   ================================================================ */
+.setup {
+  max-width: 680px; margin: 0 auto; padding: 3rem 1.5rem 4rem;
+  display: flex; flex-direction: column; gap: 1.75rem;
+}
+.setup.hidden { display: none; }
+
+.setup__header {
+  text-align: center; margin-bottom: 0.75rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border);
+}
+.setup__header h1 {
+  font-family: var(--font-mono);
+  font-size: 2.2rem; font-weight: 700;
+  color: var(--gold);
+  letter-spacing: 0.02em;
+  margin-bottom: 0.4rem;
+}
+.setup__header p {
+  color: var(--ink-muted); font-size: 1rem;
+  line-height: 1.5;
+}
+
+.field-group { display: flex; flex-direction: column; gap: 0.5rem; }
+.field-group label {
+  font-family: var(--font-mono);
+  font-size: 0.72rem; font-weight: 700; color: var(--ink-muted);
+  text-transform: uppercase; letter-spacing: 0.1em;
+}
+.field-group input[type="text"] {
+  width: 100%; padding: 0.75rem 1rem;
+  background: var(--surface); border: 1px solid var(--border);
+  color: var(--ink); border-radius: var(--radius); font-size: 1.1rem;
+  font-weight: 600;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.field-group input[type="text"]::placeholder {
+  color: var(--ink-dim); font-style: italic; font-weight: 400;
+}
+.field-group textarea {
+  width: 100%; padding: 0.85rem 1rem;
+  background: var(--parchment);
+  border: 1px solid var(--parchment-border);
+  color: var(--parchment-ink);
+  border-radius: var(--radius);
+  font-family: var(--font-mono); font-size: 0.82rem;
+  min-height: 160px; resize: vertical; line-height: 1.6;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.field-group textarea::placeholder {
+  color: var(--ink-dim); opacity: 0.7;
+}
+.field-group input:focus, .field-group textarea:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px var(--gold-glow);
+  outline: none;
+}
+
+/* Character slots */
+.char-slots { display: flex; flex-direction: column; gap: 0.75rem; }
+.char-slot {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); overflow: hidden;
+  transition: border-color 0.15s;
+}
+.char-slot:hover { border-color: var(--border-light); }
+.char-slot__header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0.6rem 0.85rem; background: var(--surface-2);
+  border-bottom: 1px solid var(--border-subtle); cursor: pointer;
+}
+.char-slot__header span {
+  font-family: var(--font-mono);
+  font-size: 0.82rem; font-weight: 700;
+  letter-spacing: 0.02em;
+}
+.char-slot__remove {
+  font-family: var(--font-mono);
+  font-size: 0.65rem; color: var(--red); padding: 0.15rem 0.45rem;
+  border: 1px solid var(--red-border); border-radius: var(--radius-sm);
+  text-transform: uppercase; letter-spacing: 0.06em;
+  transition: background 0.15s;
+}
+.char-slot__remove:hover { background: var(--red-bg); }
+.char-slot__body { padding: 0.75rem; }
+.char-slot__body textarea {
+  width: 100%; min-height: 110px; padding: 0.75rem;
+  background: var(--parchment); border: 1px solid var(--parchment-border);
+  color: var(--parchment-ink); border-radius: var(--radius-sm);
+  font-family: var(--font-mono); font-size: 0.8rem;
+  resize: vertical; line-height: 1.6;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.char-slot__body textarea:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px var(--gold-glow);
+  outline: none;
+}
+
+/* Setup actions */
+.setup__actions {
+  display: flex; gap: 0.75rem; flex-wrap: wrap; align-items: center;
+  padding-top: 0.5rem;
+}
+.btn {
+  padding: 0.55rem 1.1rem; border-radius: var(--radius);
+  font-size: 0.85rem; font-weight: 700;
+  font-family: var(--font-mono);
+  letter-spacing: 0.02em;
+  transition: all 0.15s;
+}
+.btn--primary {
+  background: linear-gradient(135deg, var(--gold-light), var(--gold));
+  color: #1a1204;
+  padding: 0.85rem 2rem; font-size: 1.05rem;
+  border-radius: var(--radius-lg);
+  box-shadow: 0 8px 24px rgba(212, 160, 23, 0.25),
+              0 2px 6px rgba(212, 160, 23, 0.15);
+}
+.btn--primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 32px rgba(212, 160, 23, 0.35),
+              0 4px 8px rgba(212, 160, 23, 0.20);
+}
+.btn--primary:active { transform: translateY(0); }
+.btn--primary:disabled {
+  opacity: 0.45; cursor: not-allowed;
+  transform: none; box-shadow: none;
+}
+.btn--secondary {
+  background: var(--surface); color: var(--ink);
+  border: 1px solid var(--border);
+}
+.btn--secondary:hover { border-color: var(--border-light); background: var(--surface-2); }
+.btn--danger { color: var(--red); border: 1px solid var(--red-border); }
+.btn--danger:hover { background: var(--red-bg); }
+
+.setup__error { color: var(--red); font-size: 0.85rem; min-height: 1.2em; font-weight: 600; }
+
+/* Example snippets */
+.example-toggle {
+  font-family: var(--font-mono);
+  font-size: 0.72rem; color: var(--ink-dim); cursor: pointer;
+  user-select: none; margin-top: 0.35rem;
+  letter-spacing: 0.02em;
+  transition: color 0.15s;
+}
+.example-toggle::before {
+  content: "\25B8 "; font-size: 0.65rem;
+}
+.example-toggle[aria-expanded="true"]::before {
+  content: "\25BE ";
+}
+.example-toggle:hover { color: var(--ink-muted); }
+.example-content {
+  display: none; margin-top: 0.5rem; padding: 0.85rem 1rem;
+  background: var(--parchment); border: 1px solid var(--parchment-border);
+  border-radius: var(--radius); font-family: var(--font-mono);
+  font-size: 0.78rem; color: var(--parchment-ink); white-space: pre-wrap; line-height: 1.6;
+}
+.example-toggle[aria-expanded="true"] + .example-content { display: block; }
+
+/* ================================================================
+   Left Panel — Agent Roster
+   ================================================================ */
+.roster-header {
+  padding: 0.85rem 1rem;
+  font-family: var(--font-mono);
+  font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.12em; color: var(--ink-dim);
+  border-bottom: 1px solid var(--border);
+}
+.roster-list {
+  flex: 1; overflow-y: auto; padding: 0.6rem;
+  display: flex; flex-direction: column; gap: 0.5rem;
+}
+
+/* Agent card */
+.agent-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 0.7rem 0.85rem;
+  cursor: pointer;
+  transition: border-color 0.15s, box-shadow 0.2s, background 0.15s;
+  position: relative;
+}
+.agent-card:hover { border-color: var(--border-light); background: var(--surface-2); }
+.agent-card.dm {
+  border-left: 3px solid var(--gold);
+  background: linear-gradient(135deg, var(--gold-glow), var(--surface));
+}
+.agent-card.dm:hover { background: linear-gradient(135deg, rgba(212, 160, 23, 0.10), var(--surface-2)); }
+.agent-card.current {
+  box-shadow: 0 0 0 2px var(--gold), 0 0 16px var(--gold-glow);
+}
+.agent-card__top { display: flex; align-items: center; gap: 0.5rem; }
+.agent-card__emoji {
+  font-size: 1.4rem; line-height: 1;
+  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.3));
+}
+.agent-card__name {
+  font-family: var(--font-mono); font-size: 0.82rem; font-weight: 700;
+  flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  letter-spacing: 0.01em;
+}
+.agent-card__name.dm-name { color: var(--gold); }
+.agent-card__role {
+  font-family: var(--font-mono);
+  font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.1em;
+  padding: 0.12rem 0.45rem; border-radius: 999px; font-weight: 700;
+}
+.agent-card__role.dm-role {
+  background: var(--gold-bg); color: var(--gold);
+  border: 1px solid var(--gold-border);
+}
+.agent-card__role.player-role {
+  background: var(--cyan-bg); color: var(--cyan);
+  border: 1px solid var(--cyan-border);
+}
+.agent-card__summary {
+  font-size: 0.72rem; color: var(--ink-dim); margin-top: 0.35rem;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  line-height: 1.4;
+}
+.agent-card__whisper-btn {
+  font-family: var(--font-mono);
+  font-size: 0.65rem; color: var(--purple-light); border: 1px solid var(--purple-border);
+  padding: 0.2rem 0.55rem; border-radius: 999px;
+  margin-top: 0.5rem; display: inline-block;
+  letter-spacing: 0.04em; text-transform: lowercase;
+  font-style: italic;
+  transition: background 0.15s, color 0.15s;
+}
+.agent-card__whisper-btn:hover { background: var(--purple-bg); color: var(--purple); }
+
+/* Expanded agent detail */
+.agent-card__detail {
+  display: none; margin-top: 0.6rem; padding-top: 0.6rem;
+  border-top: 1px solid var(--border-subtle);
+}
+.agent-card__detail.open { display: block; }
+.agent-card__detail pre {
+  font-family: var(--font-mono); font-size: 0.7rem; color: var(--ink-muted);
+  white-space: pre-wrap; word-break: break-word; line-height: 1.5;
+  max-height: 220px; overflow-y: auto;
+  background: var(--bg); padding: 0.65rem; border-radius: var(--radius-sm);
+  border: 1px solid var(--border-subtle);
+}
+
+/* Whisper input */
+.whisper-input {
+  display: none; margin-top: 0.5rem;
+  background: var(--bg); border: 1px solid var(--purple-border);
+  border-radius: var(--radius-sm); padding: 0.6rem;
+  box-shadow: inset 0 1px 4px rgba(0,0,0,0.15);
+}
+.whisper-input.open { display: block; }
+.whisper-input textarea {
+  width: 100%; min-height: 52px; padding: 0.5rem;
+  background: var(--surface); border: 1px solid var(--border);
+  color: var(--purple-light); border-radius: var(--radius-sm);
+  font-size: 0.8rem; font-style: italic; resize: vertical;
+  transition: border-color 0.15s;
+}
+.whisper-input textarea::placeholder {
+  color: var(--purple); opacity: 0.5; font-style: italic;
+}
+.whisper-input textarea:focus { border-color: var(--purple); outline: none; }
+.whisper-input__actions {
+  display: flex; gap: 0.4rem; margin-top: 0.4rem; justify-content: flex-end;
+}
+.whisper-input__actions button {
+  font-family: var(--font-mono);
+  font-size: 0.68rem; padding: 0.25rem 0.6rem; border-radius: 999px;
+  letter-spacing: 0.02em; transition: all 0.15s;
+}
+.whisper-input__send {
+  background: var(--purple); color: #fff;
+  border: 1px solid var(--purple);
+}
+.whisper-input__send:hover { filter: brightness(1.15); }
+.whisper-input__cancel {
+  color: var(--ink-muted); border: 1px solid var(--border);
+}
+.whisper-input__cancel:hover { border-color: var(--border-light); }
+
+/* ================================================================
+   Memory panel
+   ================================================================ */
+.memory-panel {
+  border-top: 1px solid var(--border);
+  display: flex; flex-direction: column; overflow: hidden;
+  background: var(--bg);
+}
+.memory-header {
+  padding: 0.7rem 1rem;
+  font-family: var(--font-mono);
+  font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.1em; color: var(--ink-dim);
+  display: flex; align-items: center; justify-content: space-between;
+  cursor: pointer; user-select: none;
+  transition: color 0.15s;
+}
+.memory-header:hover { color: var(--ink-muted); }
+.memory-list {
+  flex: 1; overflow-y: auto; padding: 0 0.6rem 0.6rem;
+  display: flex; flex-direction: column; gap: 0.35rem;
+  max-height: 220px;
+}
+.memory-list.collapsed { display: none; }
+
+.fact-item {
+  font-size: 0.72rem; padding: 0.45rem 0.6rem;
+  background: var(--surface); border-radius: var(--radius-sm);
+  border-left: 3px solid var(--tool-memory);
+  transition: background 0.15s;
+}
+.fact-item:hover { background: var(--surface-2); }
+.fact-item__cat {
+  font-family: var(--font-mono);
+  font-size: 0.58rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em;
+  margin-bottom: 0.15rem;
+  display: inline-block;
+  padding: 0.05rem 0.35rem;
+  border-radius: 999px;
+  background: var(--surface-2);
+}
+.fact-item[data-cat="inventory"] .fact-item__cat { color: var(--green); background: var(--green-bg); }
+.fact-item[data-cat="location"] .fact-item__cat { color: var(--blue); background: var(--cyan-bg); }
+.fact-item[data-cat="event"] .fact-item__cat { color: var(--orange); background: var(--amber-bg); }
+.fact-item[data-cat="relationship"] .fact-item__cat { color: var(--purple); background: var(--purple-bg); }
+.fact-item[data-cat="world"] .fact-item__cat { color: var(--cyan); background: var(--cyan-bg); }
+.fact-item__text { color: var(--ink-secondary); line-height: 1.45; }
+.fact-item__round {
+  font-family: var(--font-mono);
+  font-size: 0.58rem; color: var(--ink-dim); margin-top: 0.15rem;
+}
+
+/* Keep original data-cat border colors for the left stripe */
+.fact-item[data-cat="inventory"] { border-left-color: var(--green); }
+.fact-item[data-cat="location"] { border-left-color: var(--blue); }
+.fact-item[data-cat="event"] { border-left-color: var(--orange); }
+.fact-item[data-cat="relationship"] { border-left-color: var(--purple); }
+.fact-item[data-cat="world"] { border-left-color: var(--cyan); }
+
+.memory-filter {
+  display: flex; gap: 0.3rem; padding: 0.4rem 0.6rem; flex-wrap: wrap;
+}
+.memory-filter button {
+  font-family: var(--font-mono);
+  font-size: 0.58rem; padding: 0.15rem 0.45rem; border-radius: 999px;
+  border: 1px solid var(--border); color: var(--ink-dim);
+  text-transform: uppercase; letter-spacing: 0.06em;
+  font-weight: 700;
+  transition: all 0.15s;
+}
+.memory-filter button:hover { border-color: var(--border-light); color: var(--ink-muted); }
+.memory-filter button.active {
+  border-color: var(--gold); color: var(--gold); background: var(--gold-bg);
+}
+
+/* ================================================================
+   Center Panel — Campaign Log
+   ================================================================ */
+.log-toolbar {
+  display: flex; align-items: center; gap: 0.75rem;
+  padding: 0.6rem 1rem; border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+  background: var(--bg-warm);
+}
+.xray-toggle {
+  display: flex; align-items: center; gap: 0.4rem;
+  font-family: var(--font-mono);
+  font-size: 0.7rem; color: var(--ink-muted); cursor: pointer; user-select: none;
+  letter-spacing: 0.02em;
+}
+.xray-toggle input { accent-color: var(--cyan); }
+
+/* Context pressure bar */
+.context-bar {
+  flex: 1; height: 18px; background: var(--surface);
+  border-radius: 9px; overflow: hidden; position: relative;
+  border: 1px solid var(--border); min-width: 100px;
+}
+.context-bar__fill {
+  height: 100%; border-radius: 8px;
+  transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1), background 0.4s;
+  background: linear-gradient(90deg, var(--green), #2dd4bf);
+}
+.context-bar__fill.warn { background: linear-gradient(90deg, var(--amber), #fb923c); }
+.context-bar__fill.danger { background: linear-gradient(90deg, var(--red), #ef4444); }
+.context-bar__label {
+  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-mono); font-size: 0.6rem; font-weight: 700;
+  color: var(--ink-muted); letter-spacing: 0.02em;
+  pointer-events: none;
+  text-shadow: 0 0 4px var(--bg);
+}
+
+/* Log area */
+.log-scroll {
+  flex: 1; overflow-y: auto; padding: 1rem 1.25rem 4rem;
+  display: flex; flex-direction: column; gap: 0.75rem;
+  background:
+    radial-gradient(ellipse 80% 50% at 50% 0%, rgba(212, 160, 23, 0.015), transparent),
+    var(--bg);
+}
+
+/* ================================================================
+   Turn cards
+   ================================================================ */
+.turn-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 0.85rem 1rem;
+  animation: turnIn 0.35s cubic-bezier(0.2, 0.7, 0.2, 1);
+  transition: border-color 0.15s;
+}
+.turn-card:hover { border-color: var(--border-light); }
+
+@keyframes turnIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* DM turn — special treatment */
+.turn-card.dm-turn {
+  background: linear-gradient(135deg, rgba(212, 160, 23, 0.06), var(--surface));
+  border-color: var(--gold-border);
+  border-left: 3px solid var(--gold);
+}
+
+.turn-card__header {
+  display: flex; align-items: center; gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+.turn-card__emoji {
+  font-size: 1.15rem;
+  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.2));
+}
+.turn-card__agent-name {
+  font-family: var(--font-mono); font-size: 0.82rem; font-weight: 700;
+  letter-spacing: 0.01em;
+}
+.turn-card__agent-name.dm { color: var(--gold); }
+.turn-card__round-tag {
+  margin-left: auto; font-family: var(--font-mono);
+  font-size: 0.65rem; color: var(--ink-dim);
+  background: var(--surface-2);
+  padding: 0.1rem 0.45rem; border-radius: 999px;
+  letter-spacing: 0.04em;
+}
+
+/* Message text */
+.turn-card__message {
+  font-size: 0.92rem; line-height: 1.65; color: var(--ink);
+}
+.turn-card.dm-turn .turn-card__message {
+  font-size: 0.95rem;
+  color: var(--ink);
+  line-height: 1.7;
+}
+
+/* Whispers received */
+.turn-card__whispers {
+  margin-top: 0.5rem; padding: 0.45rem 0.75rem;
+  border-left: 2px dashed var(--purple-border);
+  background: var(--purple-bg);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+}
+.turn-card__whisper {
+  font-size: 0.78rem; color: var(--purple-light); font-style: italic;
+  line-height: 1.5;
+}
+
+/* Collapsible sections */
+.turn-card details {
+  margin-top: 0.45rem;
+}
+.turn-card summary {
+  font-family: var(--font-mono);
+  font-size: 0.72rem; color: var(--ink-dim); cursor: pointer;
+  padding: 0.25rem 0; user-select: none; list-style: none;
+  letter-spacing: 0.02em;
+  transition: color 0.15s;
+}
+.turn-card summary::-webkit-details-marker { display: none; }
+.turn-card summary::before {
+  content: "\25B8"; font-size: 0.58rem; margin-right: 0.4rem;
+  display: inline-block; transition: transform 0.2s;
+}
+.turn-card details[open] summary::before { transform: rotate(90deg); }
+.turn-card summary:hover { color: var(--ink-muted); }
+
+/* Inner monologue — private thoughts */
+.monologue-content {
+  margin-top: 0.3rem; padding: 0.65rem 0.75rem;
+  background: var(--bg); border-radius: var(--radius-sm);
+  border: 1px solid var(--border-subtle);
+  font-size: 0.8rem; color: var(--ink-dim); font-style: italic;
+  line-height: 1.6; white-space: pre-wrap; word-break: break-word;
+}
+
+/* Tool calls */
+.tool-list {
+  margin-top: 0.3rem; display: flex; flex-direction: column; gap: 0.35rem;
+}
+.tool-call {
+  background: var(--bg); border-radius: var(--radius-sm);
+  padding: 0.5rem 0.65rem; border-left: 3px solid var(--border);
+  font-family: var(--font-mono); font-size: 0.75rem;
+  border: 1px solid var(--border-subtle);
+  border-left-width: 3px;
+}
+.tool-call[data-tool="roll_dice"] { border-left-color: var(--tool-dice); }
+.tool-call[data-tool="resolve_action"] { border-left-color: var(--tool-action); }
+.tool-call[data-tool="remember_fact"],
+.tool-call[data-tool="recall_facts"] { border-left-color: var(--tool-memory); }
+.tool-call[data-tool="take_note"],
+.tool-call[data-tool="read_notes"] { border-left-color: var(--tool-notes); }
+.tool-call[data-tool="set_scene"] { border-left-color: var(--tool-scene); }
+.tool-call[data-tool="create_npc"],
+.tool-call[data-tool="view_npc_sheet"] { border-left-color: var(--tool-npc); }
+.tool-call[data-tool="lookup_rule"] { border-left-color: var(--tool-rule); }
+
+.tool-call__name {
+  color: var(--ink); font-weight: 700;
+  font-size: 0.78rem;
+}
+.tool-call__args {
+  color: var(--ink-dim); font-size: 0.72rem;
+  display: block; margin-top: 0.1rem;
+  word-break: break-all;
+}
+.tool-call__result {
+  color: var(--ink-muted); margin-top: 0.25rem;
+  padding-top: 0.25rem; border-top: 1px solid var(--border-subtle);
+}
+.tool-call__result .dice-roll {
+  color: var(--green); font-weight: 700; font-size: 0.9rem;
+  letter-spacing: 0.02em;
+}
+.tool-call__result .action-success {
+  color: var(--green); font-weight: 700;
+}
+.tool-call__result .action-fail {
+  color: var(--red); font-weight: 700;
+}
+
+/* Metadata */
+.meta-content {
+  margin-top: 0.3rem; padding: 0.5rem 0.65rem;
+  background: var(--bg); border-radius: var(--radius-sm);
+  border: 1px solid var(--border-subtle);
+  font-size: 0.72rem; color: var(--ink-dim); line-height: 1.7;
+  font-family: var(--font-mono);
+}
+.meta-content a { font-size: 0.72rem; }
+
+/* Compaction entry */
+.turn-card.compaction {
+  background: linear-gradient(135deg, var(--purple-bg), var(--surface));
+  border-color: var(--purple-border);
+  border-left: 3px solid var(--purple);
+  text-align: center;
+}
+.turn-card.compaction .turn-card__message {
+  color: var(--purple-light); font-style: italic;
+  font-size: 0.85rem;
+}
+
+/* ================================================================
+   Right Panel — Controls
+   ================================================================ */
+.controls-section {
+  display: flex; flex-direction: column; gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+.controls-section__title {
+  font-family: var(--font-mono);
+  font-size: 0.65rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.12em; color: var(--ink-dim);
+  padding-bottom: 0.35rem; border-bottom: 1px solid var(--border);
+}
+
+/* Next turn button */
+.next-turn-btn {
+  width: 100%; padding: 0.85rem; font-size: 1.05rem; font-weight: 700;
+  font-family: var(--font-mono);
+  background: linear-gradient(135deg, var(--gold-light), var(--gold));
+  color: #1a1204;
+  border-radius: var(--radius);
+  letter-spacing: 0.03em;
+  transition: all 0.15s;
+  box-shadow: 0 4px 16px rgba(212, 160, 23, 0.20);
+}
+.next-turn-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px rgba(212, 160, 23, 0.30);
+}
+.next-turn-btn:active:not(:disabled) { transform: translateY(0); }
+.next-turn-btn:disabled { opacity: 0.45; cursor: not-allowed; box-shadow: none; }
+.next-turn-btn.advancing {
+  background: var(--surface); color: var(--ink-muted);
+  border: 1px solid var(--border);
+  box-shadow: none;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 0.7; }
+  50% { opacity: 1; }
+}
+
+/* Auto-play */
+.autoplay-row {
+  display: flex; align-items: center; gap: 0.5rem;
+}
+.autoplay-row label {
+  font-size: 0.82rem; color: var(--ink-muted); flex: 1;
+}
+.autoplay-row input[type="checkbox"] {
+  accent-color: var(--gold);
+  width: 16px; height: 16px;
+}
+.speed-row {
+  display: flex; align-items: center; gap: 0.5rem; margin-top: 0.3rem;
+}
+.speed-row label {
+  font-family: var(--font-mono);
+  font-size: 0.68rem; color: var(--ink-dim);
+  letter-spacing: 0.04em; text-transform: uppercase;
+}
+.speed-row input[type="range"] {
+  flex: 1; accent-color: var(--gold); height: 4px;
+}
+.speed-row .speed-val {
+  font-family: var(--font-mono); font-size: 0.7rem; color: var(--ink-muted);
+  min-width: 28px; text-align: right; font-weight: 700;
+}
+
+/* Inference meter */
+.inference-meter {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 0.7rem;
+}
+.inference-meter__bar {
+  height: 10px; background: var(--bg); border-radius: 5px;
+  overflow: hidden; margin-bottom: 0.45rem;
+  border: 1px solid var(--border-subtle);
+}
+.inference-meter__fill {
+  height: 100%; border-radius: 4px;
+  transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1), background 0.4s;
+  background: linear-gradient(90deg, var(--green), #2dd4bf);
+}
+.inference-meter__fill.warn { background: linear-gradient(90deg, var(--amber), #fb923c); }
+.inference-meter__fill.danger { background: linear-gradient(90deg, var(--red), #ef4444); }
+.inference-meter__stats {
+  display: flex; justify-content: space-between;
+  font-family: var(--font-mono); font-size: 0.68rem; color: var(--ink-dim);
+  font-weight: 700;
+}
+
+/* Campaign info */
+.campaign-info {
+  display: flex; flex-direction: column; gap: 0.4rem;
+  font-size: 0.82rem;
+}
+.campaign-info__row {
+  display: flex; justify-content: space-between;
+  color: var(--ink-muted);
+}
+.campaign-info__row span:last-child {
+  font-family: var(--font-mono); color: var(--ink); font-weight: 700;
+}
+
+/* Export & actions */
+.export-row { display: flex; gap: 0.5rem; }
+.export-row button {
+  flex: 1; padding: 0.5rem; font-size: 0.72rem; font-weight: 700;
+  font-family: var(--font-mono);
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); color: var(--ink-muted);
+  letter-spacing: 0.04em; text-transform: uppercase;
+  transition: all 0.15s;
+}
+.export-row button:hover { border-color: var(--border-light); color: var(--ink); background: var(--surface-2); }
+
+.action-row { display: flex; gap: 0.5rem; margin-top: 0.3rem; }
+.action-row button {
+  flex: 1; padding: 0.5rem; font-size: 0.72rem;
+  font-family: var(--font-mono); font-weight: 700;
+  border-radius: var(--radius-sm);
+  letter-spacing: 0.02em;
+  transition: all 0.15s;
+}
+.btn-pause {
+  background: var(--amber-bg); color: var(--amber); border: 1px solid var(--amber-border);
+}
+.btn-pause:hover { background: rgba(251, 191, 36, 0.18); }
+.btn-end {
+  background: var(--red-bg); color: var(--red); border: 1px solid var(--red-border);
+}
+.btn-end:hover { background: rgba(248, 113, 113, 0.18); }
+.btn-resume {
+  background: var(--green-bg); color: var(--green); border: 1px solid var(--green-border);
+}
+.btn-resume:hover { background: rgba(52, 211, 153, 0.18); }
+
+/* Settings display */
+.settings-display {
+  font-size: 0.75rem; color: var(--ink-dim);
+  display: flex; flex-direction: column; gap: 0.2rem;
+}
+.settings-display span { font-family: var(--font-mono); font-size: 0.72rem; }
+
+/* Empty log placeholder */
+.log-empty {
+  flex: 1; display: flex; align-items: center; justify-content: center;
+  color: var(--ink-dim); font-size: 0.9rem; text-align: center;
+  padding: 2rem;
+}
+.log-empty p {
+  max-width: 320px; line-height: 1.7;
+}
+.log-empty strong { color: var(--gold); font-family: var(--font-mono); }
+
+/* Toast */
+.toast {
+  position: fixed; bottom: 1.5rem; left: 50%; transform: translateX(-50%);
+  background: linear-gradient(135deg, var(--gold-light), var(--gold));
+  color: #1a1204; font-weight: 700;
+  font-family: var(--font-mono);
+  font-size: 0.78rem; padding: 0.55rem 1.25rem; border-radius: 999px;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.25s, transform 0.25s;
+  z-index: 200;
+  box-shadow: 0 8px 24px rgba(212, 160, 23, 0.3);
+  letter-spacing: 0.02em;
+}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(-6px); }
+
+/* ================================================================
+   Rulebook upload section
+   ================================================================ */
+.rulebook-section {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1rem;
+  background: var(--surface);
+}
+.rulebook-section textarea {
+  width: 100%; min-height: 120px; padding: 0.75rem;
+  background: var(--parchment); border: 1px solid var(--parchment-border);
+  color: var(--parchment-ink); border-radius: var(--radius-sm);
+  font-family: var(--font-mono); font-size: 0.8rem;
+  resize: vertical; line-height: 1.5;
+  transition: border-color 0.15s;
+}
+.rulebook-section textarea:focus {
+  border-color: var(--gold); box-shadow: 0 0 0 3px var(--gold-glow); outline: none;
+}
+.rulebook-actions {
+  display: flex; gap: 0.5rem; margin-top: 0.6rem; flex-wrap: wrap; align-items: center;
+}
+.rulebook-name-row {
+  display: flex; gap: 0.5rem; margin-bottom: 0.6rem; align-items: center;
+}
+.rulebook-name-row input {
+  flex: 1; padding: 0.5rem 0.75rem;
+  background: var(--surface-2); border: 1px solid var(--border);
+  color: var(--ink); border-radius: var(--radius-sm); font-size: 0.9rem;
+}
+.rulebook-name-row input:focus {
+  border-color: var(--gold); outline: none;
+}
+
+/* Chunking strategy picker */
+.chunker-strategies {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-top: 0.75rem;
+}
+.chunker-strategy-card {
+  display: flex; flex-direction: column; gap: 0.2rem;
+  padding: 0.6rem 0.75rem; border: 1px solid var(--border);
+  border-radius: var(--radius-sm); cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+  background: var(--surface);
+}
+.chunker-strategy-card:hover { border-color: var(--border-light); background: var(--surface-2); }
+.chunker-strategy-card.active {
+  border-color: var(--cyan); background: var(--cyan-bg);
+}
+.chunker-strategy-card input { display: none; }
+.chunker-strategy-icon {
+  font-family: var(--font-mono); font-size: 1rem; font-weight: 700;
+  color: var(--cyan); line-height: 1;
+}
+.chunker-strategy-name {
+  font-family: var(--font-mono); font-size: 0.78rem; font-weight: 700;
+  color: var(--ink);
+}
+.chunker-strategy-desc {
+  font-size: 0.68rem; color: var(--ink-dim); line-height: 1.4;
+}
+.chunker-fixed-slider {
+  display: none; margin-top: 0.5rem; align-items: center; gap: 0.5rem;
+}
+.chunker-fixed-slider.visible { display: flex; }
+.chunker-fixed-slider label {
+  font-family: var(--font-mono); font-size: 0.7rem; color: var(--ink-muted);
+}
+.chunker-fixed-slider input[type="range"] {
+  flex: 1; accent-color: var(--cyan);
+}
+.chunker-fixed-slider .slider-val {
+  font-family: var(--font-mono); font-size: 0.72rem; color: var(--ink);
+  font-weight: 700; min-width: 40px; text-align: right;
+}
+
+/* Chunk preview */
+.chunker-results {
+  display: none; margin-top: 0.75rem;
+  border: 1px solid var(--border); border-radius: var(--radius-sm);
+  padding: 0.75rem; background: var(--bg);
+}
+.chunker-results.visible { display: block; }
+.chunker-results-header {
+  font-family: var(--font-mono); font-size: 0.78rem; font-weight: 700;
+  color: var(--ink); margin-bottom: 0.5rem;
+}
+.chunker-stats-row {
+  display: flex; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 0.6rem;
+}
+.chunker-stat {
+  font-family: var(--font-mono); font-size: 0.7rem; color: var(--ink-muted);
+}
+.chunker-stat strong { color: var(--ink); }
+.chunker-preview-card {
+  border: 1px solid var(--border-subtle); border-radius: var(--radius-sm);
+  padding: 0.5rem 0.65rem; margin-bottom: 0.4rem;
+  border-left: 3px solid var(--tool-rule);
+  background: var(--surface);
+}
+.chunker-preview-header {
+  display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;
+}
+.chunker-preview-id {
+  font-family: var(--font-mono); font-size: 0.62rem; color: var(--ink-dim);
+  background: var(--surface-2); padding: 0.08rem 0.35rem; border-radius: 999px;
+}
+.chunker-preview-title {
+  font-family: var(--font-mono); font-size: 0.72rem; font-weight: 700;
+  color: var(--ink); flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.chunker-preview-tokens {
+  font-family: var(--font-mono); font-size: 0.62rem; color: var(--cyan);
+}
+.chunker-preview-content {
+  font-size: 0.72rem; color: var(--ink-muted); line-height: 1.5;
+  font-family: var(--font-mono); white-space: pre-wrap; word-break: break-word;
+}
+.chunker-preview-more {
+  font-family: var(--font-mono); font-size: 0.7rem; color: var(--ink-dim);
+  text-align: center; padding: 0.3rem;
+}
+
+/* Emoji picker */
+.emoji-picker {
+  display: none; flex-wrap: wrap; gap: 0.25rem;
+  padding: 0.4rem; background: var(--surface-2);
+  border: 1px solid var(--border); border-radius: var(--radius-sm);
+  margin-top: 0.3rem; max-width: 240px;
+}
+.emoji-picker.open { display: flex; }
+.emoji-picker button {
+  font-size: 1.1rem; padding: 0.2rem 0.3rem;
+  border-radius: var(--radius-sm); transition: background 0.1s;
+  line-height: 1;
+}
+.emoji-picker button:hover { background: var(--surface-3); }
+.emoji-picker button.selected {
+  background: var(--gold-bg); box-shadow: 0 0 0 2px var(--gold);
+}
+.emoji-trigger {
+  font-size: 1.3rem; cursor: pointer; line-height: 1;
+  padding: 0.15rem 0.3rem; border-radius: var(--radius-sm);
+  border: 1px solid var(--border); transition: background 0.15s;
+}
+.emoji-trigger:hover { background: var(--surface-2); }
+
+/* Character name input */
+.char-name-row {
+  display: flex; gap: 0.5rem; align-items: center; margin-bottom: 0.4rem;
+}
+.char-name-row input {
+  flex: 1; padding: 0.4rem 0.65rem;
+  background: var(--surface-2); border: 1px solid var(--border);
+  color: var(--ink); border-radius: var(--radius-sm);
+  font-size: 0.85rem; font-weight: 600;
+}
+.char-name-row input:focus {
+  border-color: var(--gold); outline: none;
+}
+
+/* Rules consulted panel in turn cards */
+.rules-consulted {
+  margin-top: 0.35rem; padding: 0.5rem 0.65rem;
+  background: var(--cyan-bg); border-radius: var(--radius-sm);
+  border: 1px solid var(--cyan-border);
+  border-left: 3px solid var(--tool-rule);
+}
+.rules-consulted__header {
+  font-family: var(--font-mono); font-size: 0.72rem; font-weight: 700;
+  color: var(--cyan); margin-bottom: 0.35rem;
+}
+.rules-consulted__query {
+  font-size: 0.72rem; color: var(--ink-muted); font-style: italic;
+  margin-bottom: 0.25rem;
+}
+.rules-consulted__chunk {
+  font-size: 0.72rem; color: var(--ink-secondary); margin-bottom: 0.2rem;
+  padding: 0.25rem 0.4rem; background: var(--surface);
+  border-radius: var(--radius-sm);
+}
+.rules-consulted__chunk-title {
+  font-family: var(--font-mono); font-weight: 700; font-size: 0.7rem;
+  color: var(--ink);
+}
+.rules-consulted__chunk-preview {
+  font-size: 0.68rem; color: var(--ink-dim); margin-top: 0.1rem;
+}
+
+/* Rulebook badge in top bar */
+.top-bar__rulebook {
+  font-family: var(--font-mono); font-size: 0.65rem; color: var(--cyan);
+  background: var(--cyan-bg); border: 1px solid var(--cyan-border);
+  padding: 0.15rem 0.5rem; border-radius: 999px; white-space: nowrap;
+}
+
+/* ================================================================
+   Architecture panel (sidebar, Level 1 — collapsed by default)
+   ================================================================ */
+.arch-panel {
+  border-top: 1px solid var(--border);
+  display: flex; flex-direction: column; overflow: hidden;
+  background: var(--bg);
+}
+.arch-header {
+  padding: 0.7rem 1rem;
+  font-family: var(--font-mono);
+  font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.1em; color: var(--ink-dim);
+  display: flex; align-items: center; justify-content: space-between;
+  cursor: pointer; user-select: none;
+  transition: color 0.15s;
+}
+.arch-header:hover { color: var(--ink-muted); }
+.arch-body {
+  padding: 0 0.6rem 0.6rem;
+  max-height: 400px; overflow-y: auto;
+}
+.arch-body.collapsed { display: none; }
+.arch-stat-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 0.25rem 0; font-size: 0.72rem; color: var(--ink-muted);
+  border-bottom: 1px solid var(--border-subtle);
+}
+.arch-stat-row:last-child { border-bottom: none; }
+.arch-stat-val {
+  font-family: var(--font-mono); font-weight: 700;
+  color: var(--ink); font-size: 0.72rem;
+}
+.arch-score {
+  margin-top: 0.6rem; padding: 0.55rem 0.65rem;
+  background: var(--surface); border-radius: var(--radius-sm);
+  border: 1px solid var(--border-subtle);
+}
+.arch-score__header {
+  font-family: var(--font-mono); font-size: 0.72rem; font-weight: 700;
+  color: var(--ink); margin-bottom: 0.35rem;
+}
+.arch-factor {
+  display: flex; align-items: flex-start; gap: 0.35rem;
+  font-size: 0.68rem; line-height: 1.4; padding: 0.12rem 0;
+}
+.arch-factor__icon {
+  font-family: var(--font-mono); font-size: 0.62rem; flex-shrink: 0;
+  width: 1rem; text-align: center; margin-top: 0.05rem;
+}
+.arch-factor__icon.pass { color: var(--green); }
+.arch-factor__icon.fail { color: var(--ink-dim); }
+.arch-factor__name { color: var(--ink-secondary); }
+.arch-factor__name.pass { color: var(--ink); }
+
+/* ================================================================
+   Turn card — Level 1 "How this turn worked" disclosure
+   ================================================================ */
+.turn-detail-trigger {
+  display: inline-block; margin-top: 0.4rem;
+  font-family: var(--font-mono); font-size: 0.7rem;
+  color: var(--cyan); cursor: pointer; user-select: none;
+  letter-spacing: 0.02em;
+  transition: color 0.15s;
+}
+.turn-detail-trigger:hover { color: var(--ink); }
+.turn-detail-trigger::before {
+  content: "\25B8"; font-size: 0.58rem; margin-right: 0.35rem;
+  display: inline-block; transition: transform 0.2s;
+}
+.turn-detail-trigger.open::before { transform: rotate(90deg); }
+.turn-detail-body {
+  display: none; margin-top: 0.45rem;
+  border-top: 1px solid var(--border-subtle);
+  padding-top: 0.45rem;
+}
+.turn-detail-body.open { display: block; }
+
+/* Sections inside the detail body */
+.td-section {
+  margin-bottom: 0.55rem;
+}
+.td-section__header {
+  font-family: var(--font-mono); font-size: 0.7rem; font-weight: 700;
+  color: var(--ink-muted); margin-bottom: 0.25rem;
+  display: flex; align-items: center; gap: 0.35rem;
+}
+.td-section__header-icon { font-size: 0.82rem; }
+
+/* Enhanced tool call detail */
+.tool-detail {
+  background: var(--bg); border-radius: var(--radius-sm);
+  padding: 0.5rem 0.65rem; margin-bottom: 0.35rem;
+  border-left: 3px solid var(--border);
+  border: 1px solid var(--border-subtle);
+  border-left-width: 3px;
+  font-size: 0.72rem;
+}
+.tool-detail[data-tool="roll_dice"] { border-left-color: var(--tool-dice); }
+.tool-detail[data-tool="resolve_action"] { border-left-color: var(--tool-action); }
+.tool-detail[data-tool="remember_fact"],
+.tool-detail[data-tool="recall_facts"] { border-left-color: var(--tool-memory); }
+.tool-detail[data-tool="take_note"],
+.tool-detail[data-tool="read_notes"] { border-left-color: var(--tool-notes); }
+.tool-detail[data-tool="set_scene"] { border-left-color: var(--tool-scene); }
+.tool-detail[data-tool="create_npc"],
+.tool-detail[data-tool="view_npc_sheet"] { border-left-color: var(--tool-npc); }
+.tool-detail[data-tool="lookup_rule"] { border-left-color: var(--tool-rule); }
+.tool-detail__row {
+  display: flex; gap: 0.5rem; padding: 0.1rem 0;
+  font-family: var(--font-mono);
+}
+.tool-detail__label {
+  color: var(--ink-dim); min-width: 54px; flex-shrink: 0;
+  font-size: 0.68rem;
+}
+.tool-detail__val {
+  color: var(--ink-secondary); word-break: break-word;
+  font-size: 0.68rem;
+}
+.tool-detail__connector {
+  border-left: 2px solid var(--border-subtle);
+  margin-left: 0.35rem; padding-left: 0.5rem;
+}
+
+/* Memory changes section */
+.mem-change {
+  font-family: var(--font-mono); font-size: 0.68rem;
+  padding: 0.2rem 0.4rem; margin-bottom: 0.15rem;
+  border-radius: var(--radius-sm);
+}
+.mem-change.added {
+  color: var(--green); background: var(--green-bg);
+}
+
+/* Token usage bar in turn detail */
+.token-bar-row {
+  display: flex; align-items: center; gap: 0.5rem;
+  font-family: var(--font-mono); font-size: 0.68rem;
+  margin-bottom: 0.25rem;
+}
+.token-bar-label { color: var(--ink-dim); min-width: 70px; }
+.token-bar {
+  flex: 1; height: 8px; background: var(--bg);
+  border-radius: 4px; overflow: hidden;
+  border: 1px solid var(--border-subtle);
+}
+.token-bar__fill {
+  height: 100%; border-radius: 3px;
+  transition: width 0.3s;
+}
+.token-bar__fill.system { background: var(--gold); }
+.token-bar__fill.tools { background: var(--cyan); }
+.token-bar__fill.history { background: var(--blue); }
+.token-bar__fill.facts { background: var(--purple); }
+.token-bar__fill.notes { background: var(--green); }
+.token-bar-val { color: var(--ink-muted); min-width: 50px; text-align: right; }
+
+/* ================================================================
+   JSON Inspector (Level 2)
+   ================================================================ */
+.json-trigger {
+  font-family: var(--font-mono); font-size: 0.62rem;
+  color: var(--ink-dim); cursor: pointer; user-select: none;
+  padding: 0.15rem 0.45rem; border: 1px solid var(--border);
+  border-radius: var(--radius-sm); display: inline-block;
+  margin-top: 0.35rem; letter-spacing: 0.04em;
+  transition: all 0.15s; text-transform: uppercase;
+}
+.json-trigger:hover { color: var(--ink-muted); border-color: var(--border-light); }
+.json-inspector {
+  display: none; margin-top: 0.35rem;
+  background: var(--bg); border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm); padding: 0.65rem;
+  max-height: 400px; overflow: auto;
+  font-family: var(--font-mono); font-size: 0.68rem;
+  line-height: 1.5; white-space: pre-wrap; word-break: break-word;
+}
+.json-inspector.open { display: block; }
+/* Syntax coloring */
+.j-key { color: var(--ink); }
+.j-str { color: var(--green); }
+.j-num { color: var(--cyan); }
+.j-bool { color: var(--amber); }
+.j-null { color: var(--ink-dim); }
+.j-brace { color: var(--ink-dim); }
+
+/* ================================================================
+   Prompt Context — "What the agent saw" disclosure sections
+   ================================================================ */
+.prompt-context { margin-top: 0.3rem; }
+.prompt-section { margin-bottom: 0.3rem; }
+.prompt-section__trigger {
+  display: flex; align-items: center; gap: 0.3rem;
+  font-family: var(--font-mono); font-size: 0.68rem;
+  color: var(--ink-muted); cursor: pointer; user-select: none;
+  padding: 0.25rem 0.4rem; border-radius: var(--radius-sm);
+  transition: background 0.15s, color 0.15s;
+}
+.prompt-section__trigger:hover { background: var(--surface-2); color: var(--ink-secondary); }
+.prompt-section__trigger::before {
+  content: "\25B8"; font-size: 0.52rem;
+  display: inline-block; transition: transform 0.2s;
+}
+.prompt-section__trigger.open::before { transform: rotate(90deg); }
+.prompt-section__label { font-weight: 700; }
+.prompt-section__meta {
+  color: var(--ink-dim); font-size: 0.62rem; margin-left: auto;
+}
+.prompt-section__body {
+  display: none; margin: 0.2rem 0 0.3rem 0.4rem;
+  border-left: 2px solid var(--border-subtle); padding-left: 0.6rem;
+}
+.prompt-section__body.open { display: block; }
+.prompt-section__pre {
+  background: var(--bg); border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm); padding: 0.55rem;
+  font-family: var(--font-mono); font-size: 0.66rem;
+  line-height: 1.55; white-space: pre-wrap; word-break: break-word;
+  color: var(--ink-secondary); max-height: 350px; overflow: auto;
+}
+.prompt-msg {
+  padding: 0.3rem 0.5rem; margin-bottom: 0.2rem;
+  border-radius: var(--radius-sm); font-size: 0.66rem;
+  line-height: 1.5; font-family: var(--font-mono); word-break: break-word;
+}
+.prompt-msg.role-system { background: var(--purple-bg); border-left: 3px solid var(--purple); }
+.prompt-msg.role-user { background: var(--cyan-bg); border-left: 3px solid var(--cyan); }
+.prompt-msg.role-assistant { background: var(--gold-bg); border-left: 3px solid var(--gold); }
+.prompt-msg.role-tool { background: var(--green-bg); border-left: 3px solid var(--green); }
+.prompt-msg__role {
+  font-weight: 700; font-size: 0.6rem; text-transform: uppercase;
+  letter-spacing: 0.04em; margin-bottom: 0.15rem;
+}
+.prompt-msg.role-system .prompt-msg__role { color: var(--purple); }
+.prompt-msg.role-user .prompt-msg__role { color: var(--cyan); }
+.prompt-msg.role-assistant .prompt-msg__role { color: var(--gold); }
+.prompt-msg.role-tool .prompt-msg__role { color: var(--green); }
+.prompt-msg__content { color: var(--ink-secondary); white-space: pre-wrap; }
+.prompt-tools-list { display: flex; flex-wrap: wrap; gap: 0.25rem; padding: 0.3rem 0; }
+.prompt-tool-tag {
+  font-family: var(--font-mono); font-size: 0.62rem;
+  padding: 0.15rem 0.45rem; border-radius: 3px;
+  background: var(--surface-2); color: var(--ink-muted);
+  border: 1px solid var(--border-subtle);
+}
+
+/* ================================================================
+   RAG pipeline flow (Level 1, inside turn detail for lookup_rule)
+   ================================================================ */
+.rag-flow {
+  background: var(--bg); border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm); padding: 0.65rem;
+  margin-top: 0.25rem;
+}
+.rag-step {
+  display: flex; align-items: flex-start; gap: 0.5rem;
+  padding: 0.35rem 0;
+}
+.rag-step__pipe {
+  display: flex; flex-direction: column; align-items: center;
+  flex-shrink: 0; width: 20px;
+}
+.rag-step__dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--cyan); flex-shrink: 0;
+}
+.rag-step__line {
+  width: 2px; flex: 1; min-height: 12px;
+  background: var(--border-light);
+}
+.rag-step__content {
+  flex: 1; min-width: 0;
+}
+.rag-step__label {
+  font-family: var(--font-mono); font-size: 0.68rem;
+  font-weight: 700; color: var(--cyan);
+}
+.rag-step__detail {
+  font-size: 0.68rem; color: var(--ink-muted);
+  margin-top: 0.1rem;
+}
+.rag-result-card {
+  background: var(--surface); border: 1px solid var(--border-subtle);
+  border-left: 3px solid var(--tool-rule);
+  border-radius: var(--radius-sm); padding: 0.35rem 0.5rem;
+  margin-top: 0.15rem; margin-bottom: 0.15rem;
+}
+.rag-result-title {
+  font-family: var(--font-mono); font-size: 0.68rem;
+  font-weight: 700; color: var(--ink);
+}
+.rag-result-score {
+  font-family: var(--font-mono); font-size: 0.6rem;
+  color: var(--cyan); margin-left: 0.35rem;
+}
+.rag-result-preview {
+  font-size: 0.66rem; color: var(--ink-dim); margin-top: 0.1rem;
+  max-height: 40px; overflow: hidden;
+}
+
+/* ================================================================
+   Context pressure — expandable breakdown
+   ================================================================ */
+.context-bar { cursor: pointer; }
+.context-breakdown {
+  display: none; padding: 0.5rem 1rem 0.6rem;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-warm);
+}
+.context-breakdown.open { display: block; }
+.context-breakdown__title {
+  font-family: var(--font-mono); font-size: 0.68rem;
+  font-weight: 700; color: var(--ink-muted);
+  margin-bottom: 0.35rem;
+}
+.context-breakdown__hint {
+  font-size: 0.66rem; color: var(--ink-dim);
+  margin-top: 0.3rem; font-style: italic;
+}
+
+/* ================================================================
+   Enhanced compaction card (Level 1 — major visual event)
+   ================================================================ */
+.turn-card.compaction-enhanced {
+  background: linear-gradient(135deg, var(--purple-bg), rgba(168, 85, 247, 0.04), var(--surface));
+  border-color: var(--purple-border);
+  border-left: 4px solid var(--purple);
+  padding: 1rem 1.1rem;
+}
+.compaction-banner {
+  font-family: var(--font-mono); font-size: 0.82rem;
+  font-weight: 700; color: var(--purple-light);
+  margin-bottom: 0.5rem; letter-spacing: 0.02em;
+}
+.compaction-stats {
+  display: flex; gap: 1.25rem; flex-wrap: wrap;
+  margin-bottom: 0.5rem;
+}
+.compaction-stat {
+  font-family: var(--font-mono); font-size: 0.72rem;
+}
+.compaction-stat__label { color: var(--ink-dim); }
+.compaction-stat__val { color: var(--ink); font-weight: 700; }
+.compaction-stat__val.before { color: var(--red); }
+.compaction-stat__val.after { color: var(--green); }
+.compaction-facts {
+  margin-top: 0.4rem;
+}
+.compaction-fact {
+  font-size: 0.7rem; color: var(--purple-light);
+  padding: 0.15rem 0; font-family: var(--font-mono);
+}
+.compaction-fact::before { content: "+ "; color: var(--green); font-weight: 700; }
+.compaction-summary {
+  margin-top: 0.45rem; padding: 0.55rem 0.75rem;
+  background: var(--surface); border-radius: var(--radius-sm);
+  border: 1px solid var(--border-subtle);
+  font-size: 0.8rem; color: var(--ink-secondary);
+  line-height: 1.6; font-style: italic;
+}
+.compaction-rounds {
+  font-family: var(--font-mono); font-size: 0.66rem;
+  color: var(--ink-dim); margin-top: 0.3rem;
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     SETUP SCREEN
+     ============================================================ -->
+<div class="setup" id="setup-screen">
+  <div class="setup__header">
+    <h1>Agentic D&D</h1>
+    <p>Drop in character sheets. Watch your agents come alive.</p>
+  </div>
+
+  <div class="field-group">
+    <label for="inp-campaign-name">Campaign Name</label>
+    <input type="text" id="inp-campaign-name" placeholder="The Caves of Entropy" maxlength="100">
+  </div>
+
+  <div class="field-group">
+    <label>Dungeon Master</label>
+    <div class="char-name-row">
+      <input type="text" id="inp-dm-name" placeholder="Dungeon Master" maxlength="80">
+      <span class="emoji-trigger" id="dm-emoji-trigger" title="Pick emoji">&#127922;</span>
+      <div class="emoji-picker" id="dm-emoji-picker"></div>
+    </div>
+    <textarea id="inp-dm-md" placeholder="Paste your Dungeon Master's character sheet here...
+
+# The Dungeon Master
+
+A creative and fair DM who weaves immersive narratives.
+Favors description over combat. Rewards clever solutions."></textarea>
+    <div class="example-toggle" role="button" tabindex="0" aria-expanded="false" onclick="this.setAttribute('aria-expanded', this.getAttribute('aria-expanded')==='true'?'false':'true')">Need an example?</div>
+    <div class="example-content"># The Dungeon Master
+
+You are a creative, atmospheric DM running a dark fantasy campaign.
+Your narration style is vivid and concise. You favor environmental
+storytelling and reward creative problem-solving over brute force.
+
+## Style
+- Describe scenes with sensory detail (sounds, smells, textures)
+- Present moral ambiguity - no pure good or pure evil
+- Make failure interesting, never just "you fail"
+- Use NPCs as windows into the world's culture
+
+## Rules
+- Use the Cairn 2e SRD for mechanics
+- Critical hits deal max damage
+- Ability checks: roll d20 + modifier vs DC</div>
+  </div>
+
+  <div class="field-group">
+    <label>Characters</label>
+    <div class="char-slots" id="char-slots">
+      <div class="char-slot" data-index="0">
+        <div class="char-slot__header" onclick="this.parentElement.querySelector('.char-slot__body').style.display = this.parentElement.querySelector('.char-slot__body').style.display === 'none' ? '' : 'none'">
+          <span>Character 1</span>
+        </div>
+        <div class="char-slot__body">
+          <div class="char-name-row">
+            <input type="text" class="char-name" placeholder="Character name" maxlength="80">
+            <span class="emoji-trigger char-emoji-trigger" data-index="0" title="Pick emoji">&#9876;&#65039;</span>
+            <div class="emoji-picker char-emoji-picker" data-index="0"></div>
+          </div>
+          <textarea class="char-md" placeholder="# Rogue
+
+A stealthy rogue with a heart of gold and a knack for finding trouble..."></textarea>
+        </div>
+      </div>
+    </div>
+    <div style="display:flex;gap:0.5rem;margin-top:0.5rem;">
+      <button class="btn btn--secondary" id="btn-add-char">+ Add Character</button>
+    </div>
+    <div class="example-toggle" role="button" tabindex="0" aria-expanded="false" onclick="this.setAttribute('aria-expanded', this.getAttribute('aria-expanded')==='true'?'false':'true')">Need an example?</div>
+    <div class="example-content"># Elara the Shadow
+
+A half-elf rogue who grew up on the streets of Thornwall.
+
+## Personality
+- Wry humor, deflects with jokes
+- Fiercely loyal to those who earn her trust
+- Hates authority but respects competence
+
+## Abilities
+- Stealth and lockpicking specialist
+- Dual-wields short swords
+- Can read lips from 60 feet
+
+## Quirk
+Collects keys from every locked door she opens.
+Keeps them on a chain at her belt.</div>
+  </div>
+
+  <div class="field-group">
+    <label>Rulebook (optional)</label>
+    <div class="rulebook-section" id="rulebook-section">
+      <div class="rulebook-name-row">
+        <input type="text" id="inp-rulebook-name" placeholder="Rulebook name (e.g. Cairn 2e)" maxlength="100">
+      </div>
+      <textarea id="inp-rulebook-text" placeholder="Paste your rulebook / SRD text here...
+
+The DM will search these rules during the campaign instead of inventing mechanics. This is the RAG pipeline: your document gets chunked, the DM retrieves relevant chunks, and you see which rules it found."></textarea>
+      <div class="rulebook-actions">
+        <button class="btn btn--secondary" id="btn-try-cairn">Try Cairn 2e (CC-BY-SA)</button>
+        <button class="btn btn--secondary" id="btn-chunk-rulebook">Chunk it</button>
+      </div>
+      <div class="chunker-strategies" id="chunker-strategies"></div>
+      <div class="chunker-fixed-slider" id="chunker-fixed-slider">
+        <label>Chunk size:</label>
+        <input type="range" id="rng-chunk-size" min="200" max="1000" step="50" value="500">
+        <span class="slider-val" id="chunk-size-val">500</span>
+      </div>
+      <div class="chunker-results" id="chunker-results">
+        <div class="chunker-results-header" id="chunker-results-header"></div>
+        <div class="chunker-stats-row" id="chunker-stats-row"></div>
+        <div id="chunker-preview"></div>
+        <div style="margin-top:0.5rem;">
+          <button class="btn btn--secondary" id="btn-rechunk" style="font-size:0.72rem;padding:0.35rem 0.75rem;">Re-chunk with different strategy</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="setup__error" id="setup-error"></div>
+
+  <div class="setup__actions">
+    <button class="btn btn--primary" id="btn-start">Launch Campaign</button>
+  </div>
+</div>
+
+<!-- ============================================================
+     TOP BAR (visible during campaign)
+     ============================================================ -->
+<div class="top-bar" id="top-bar" style="display:none">
+  <span class="top-bar__title" id="tb-title"></span>
+  <span class="top-bar__round" id="tb-round"></span>
+  <span class="top-bar__status" id="tb-status" data-status="active">Active</span>
+  <span class="top-bar__rulebook" id="tb-rulebook" style="display:none"></span>
+  <span class="top-bar__spacer"></span>
+  <span class="top-bar__code" id="tb-code" title="Click to copy campaign code"></span>
+</div>
+
+<!-- ============================================================
+     MOBILE TABS
+     ============================================================ -->
+<div class="mobile-tabs" id="mobile-tabs" style="display:none">
+  <button class="active" data-panel="roster">Roster</button>
+  <button data-panel="campaign">Campaign</button>
+  <button data-panel="controls">Controls</button>
+</div>
+
+<!-- ============================================================
+     THREE-PANEL LAYOUT
+     ============================================================ -->
+<div class="app" id="app">
+
+  <!-- LEFT — Agent Roster -->
+  <div class="panel-left" id="panel-roster">
+    <div class="roster-header">Agents</div>
+    <div class="roster-list" id="roster-list"></div>
+
+    <!-- Memory panel -->
+    <div class="memory-panel" id="memory-panel">
+      <div class="memory-header" id="memory-header" onclick="DND.toggleMemory()">
+        <span>Memory <span id="memory-count">(0)</span></span>
+        <span id="memory-chevron">&#9660;</span>
+      </div>
+      <div class="memory-filter" id="memory-filter"></div>
+      <div class="memory-list" id="memory-list"></div>
+    </div>
+
+    <!-- Architecture panel (Level 1 — collapsed by default) -->
+    <div class="arch-panel" id="arch-panel">
+      <div class="arch-header" id="arch-header" onclick="DND.toggleArch()">
+        <span>Architecture</span>
+        <span id="arch-chevron">&#9654;</span>
+      </div>
+      <div class="arch-body collapsed" id="arch-body"></div>
+    </div>
+  </div>
+
+  <!-- CENTER — Campaign Log -->
+  <div class="panel-center mobile-active" id="panel-campaign">
+    <div class="log-toolbar">
+      <label class="xray-toggle">
+        <input type="checkbox" id="xray-check">
+        X-ray mode
+      </label>
+      <div class="context-bar" id="context-bar" onclick="DND.toggleContextBreakdown()">
+        <div class="context-bar__fill" id="context-fill" style="width:0%"></div>
+        <div class="context-bar__label" id="context-label">Context: idle</div>
+      </div>
+    </div>
+    <div class="context-breakdown" id="context-breakdown"></div>
+    <div class="log-scroll" id="log-scroll">
+      <div class="log-empty" id="log-empty">
+        <p>Press <strong>Next Turn</strong> to begin the campaign.<br>The DM speaks first.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT — Controls -->
+  <div class="panel-right" id="panel-controls">
+
+    <div class="controls-section">
+      <button class="next-turn-btn" id="btn-next">Next Turn</button>
+    </div>
+
+    <div class="controls-section">
+      <div class="controls-section__title">Auto-play</div>
+      <div class="autoplay-row">
+        <label for="chk-autoplay">Auto-advance turns</label>
+        <input type="checkbox" id="chk-autoplay">
+      </div>
+      <div class="speed-row">
+        <label>Speed</label>
+        <input type="range" id="rng-speed" min="2" max="10" step="1" value="5">
+        <span class="speed-val" id="speed-val">5s</span>
+      </div>
+    </div>
+
+    <div class="controls-section">
+      <div class="controls-section__title">Inference</div>
+      <div class="inference-meter">
+        <div class="inference-meter__bar">
+          <div class="inference-meter__fill" id="inference-fill" style="width:0%"></div>
+        </div>
+        <div class="inference-meter__stats">
+          <span id="inference-cost">$0.00</span>
+          <span id="inference-tokens">0 tokens</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="controls-section">
+      <div class="controls-section__title">Campaign</div>
+      <div class="campaign-info">
+        <div class="campaign-info__row"><span>Round</span><span id="info-round">1</span></div>
+        <div class="campaign-info__row"><span>Agents</span><span id="info-agents">0</span></div>
+        <div class="campaign-info__row"><span>Turns</span><span id="info-turns">0</span></div>
+        <div class="campaign-info__row"><span>Status</span><span id="info-status">Active</span></div>
+      </div>
+    </div>
+
+    <div class="controls-section">
+      <div class="controls-section__title">Export</div>
+      <div class="export-row">
+        <button id="btn-export-json">JSON</button>
+        <button id="btn-export-md">Markdown</button>
+      </div>
+    </div>
+
+    <div class="controls-section">
+      <div class="controls-section__title">Actions</div>
+      <div class="action-row" id="action-row">
+        <button class="btn-pause" id="btn-pause">Pause</button>
+        <button class="btn-end" id="btn-end">End Campaign</button>
+      </div>
+      <div class="action-row" style="margin-top:0.35rem;">
+        <button class="btn btn--secondary" id="btn-new-campaign" style="flex:1;">New Campaign</button>
+      </div>
+    </div>
+
+    <div class="controls-section">
+      <div class="controls-section__title">Settings</div>
+      <div class="settings-display">
+        <span>Model: <span id="info-model">inference engine</span></span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- ============================================================
+     SCRIPT
+     ============================================================ -->
+<script>
+(function() {
+  'use strict';
+
+  const BASE = '/tools/agentic-dnd';
+  const PLAYER_COLORS = ['#6ba5e7','#e76b6b','#6be7a7','#e7c86b','#c76be7'];
+  const FACT_CATEGORIES = ['all','inventory','location','event','relationship','world'];
+  const TOOL_ACCENT_MAP = {
+    roll_dice: 'dice', resolve_action: 'action',
+    remember_fact: 'memory', recall_facts: 'memory',
+    take_note: 'notes', read_notes: 'notes',
+    set_scene: 'scene', create_npc: 'npc', view_npc_sheet: 'npc',
+    lookup_rule: 'rule',
+  };
+
+  // Fantasy emoji set for character picker
+  const CHARACTER_EMOJIS = [
+    '⚔️','🛡️','🏹','🔮','🗡️',
+    '🧙','🧝','🧜','🦸','🎢',
+    '🐉','🐺','🦅','💀','👻',
+    '🎭','🔥','✨','🌙','💎',
+    '🏺','🗝️','🧡','⚡','🌿',
+  ];
+  const DM_EMOJIS = [
+    '🎲','📜','🗺️','🕰️','🎭',
+    '👁️','🧠','🔮','⚖️','📖',
+  ];
+
+  // State
+  let code = null;
+  let lastSeq = -1;
+  let pollTimer = null;
+  let advancing = false;
+  let autoplayTimer = null;
+  let charCount = 1;
+  let campaignState = null;
+  let renderedLogCount = 0;
+  let userScrolled = false;
+  let activeWhisperAgent = null;
+  let expandedAgentCard = null;
+  let memoryCollapsed = false;
+  let activeMemoryFilter = 'all';
+  let archCollapsed = true;
+  let contextBreakdownOpen = false;
+
+  // Rulebook state
+  let rulebookChunks = [];
+  let chunkStrategy = 'header';
+  let chunkFixedSize = 500;
+  let dmEmoji = '🎲';
+  let charEmojis = {}; // index -> emoji
+
+  // Prefs from localStorage
+  let xrayMode = localStorage.getItem('dnd-xray') === 'true';
+  let autoplayOn = localStorage.getItem('dnd-autoplay') === 'true';
+  let autoplaySpeed = parseInt(localStorage.getItem('dnd-speed') || '5', 10);
+
+  // DOM helpers
+  const $ = (sel) => document.querySelector(sel);
+  const $$ = (sel) => document.querySelectorAll(sel);
+
+  function esc(s) {
+    const d = document.createElement('span');
+    d.textContent = String(s == null ? '' : s);
+    return d.innerHTML;
+  }
+
+  function toast(msg) {
+    const el = $('#toast');
+    el.textContent = msg;
+    el.classList.add('show');
+    setTimeout(() => el.classList.remove('show'), 2000);
+  }
+
+  function fmtNum(n) {
+    if (n >= 1000) return (n / 1000).toFixed(1) + 'k';
+    return String(n);
+  }
+
+  // ----------------------------------------------------------------
+  // URL hash — preserve campaign code across refresh
+  // ----------------------------------------------------------------
+  function readHash() {
+    const h = location.hash.replace('#', '').trim().toUpperCase();
+    if (h.length === 6) return h;
+    try {
+      const last = localStorage.getItem('dnd.last-campaign');
+      if (last && last.length === 6) return last;
+    } catch (_) {}
+    return null;
+  }
+
+  function setHash(c) {
+    history.replaceState(null, '', '#' + c);
+  }
+
+  // ----------------------------------------------------------------
+  // Setup screen — draft persistence
+  // ----------------------------------------------------------------
+  const DRAFT_KEY = 'dnd.setup.draft.v1';
+
+  function saveDraft() {
+    try {
+      const draft = {
+        name: $('#inp-campaign-name').value,
+        dm: $('#inp-dm-md').value,
+        chars: Array.from($$('.char-md')).map(t => t.value),
+        ts: Date.now()
+      };
+      localStorage.setItem(DRAFT_KEY, JSON.stringify(draft));
+    } catch (_) {}
+  }
+
+  function loadDraft() {
+    try {
+      const raw = localStorage.getItem(DRAFT_KEY);
+      if (!raw) return;
+      const draft = JSON.parse(raw);
+      if (draft.name) $('#inp-campaign-name').value = draft.name;
+      if (draft.dm) $('#inp-dm-md').value = draft.dm;
+      if (draft.chars && draft.chars.length) {
+        const slots = $$('.char-md');
+        draft.chars.forEach((md, i) => {
+          if (i === 0 && slots[0]) { slots[0].value = md; return; }
+          if (i >= charCount) { $('#btn-add-char').click(); }
+          const allSlots = $$('.char-md');
+          if (allSlots[i]) allSlots[i].value = md;
+        });
+      }
+    } catch (_) {}
+  }
+
+  function clearDraft() {
+    try { localStorage.removeItem(DRAFT_KEY); } catch (_) {}
+  }
+
+  // Auto-save draft on every input change (debounced)
+  let draftTimer = null;
+  document.querySelector('#setup-screen').addEventListener('input', () => {
+    clearTimeout(draftTimer);
+    draftTimer = setTimeout(saveDraft, 500);
+  });
+
+  // Restore draft on load
+  loadDraft();
+
+  // ----------------------------------------------------------------
+  // Inline chunker (same logic as tools/shared/chunker.js)
+  // ----------------------------------------------------------------
+  function chunkHeader(text) {
+    var lines = text.split('\n');
+    var chunks = [], current = { title: '', lines: [] };
+    for (var i = 0; i < lines.length; i++) {
+      var m = lines[i].match(/^(#{1,4})\s+(.+)/);
+      if (m) {
+        if (current.lines.length > 0 || current.title) {
+          var content = current.lines.join('\n').trim();
+          if (content) chunks.push({ title: current.title || 'Preamble', content: content });
+        }
+        current = { title: m[2].trim(), lines: [] };
+      } else {
+        current.lines.push(lines[i]);
+      }
+    }
+    if (current.lines.length > 0) {
+      var c = current.lines.join('\n').trim();
+      if (c) chunks.push({ title: current.title || 'Preamble', content: c });
+    }
+    return chunks.map(function(c, i) {
+      return { id: 'chunk-' + String(i+1).padStart(2,'0'), title: c.title, content: c.content, tokens_est: Math.ceil(c.content.length / 4) };
+    });
+  }
+  function chunkParagraph(text) {
+    var paras = text.split(/\n\n+/), chunks = [];
+    for (var i = 0; i < paras.length; i++) {
+      var p = paras[i].trim();
+      if (!p || p.length < 10) continue;
+      var tm = p.match(/^#{1,4}\s+(.+)/);
+      var title = tm ? tm[1].trim() : p.substring(0,60).replace(/\n/g,' ');
+      if (title.length >= 60) title = title.substring(0,57) + '...';
+      chunks.push({ id: 'chunk-' + String(chunks.length+1).padStart(2,'0'), title: title, content: p, tokens_est: Math.ceil(p.length/4) });
+    }
+    return chunks;
+  }
+  function chunkFixed(text, size) {
+    var chunks = [], pos = 0;
+    while (pos < text.length) {
+      var end = Math.min(pos + size, text.length);
+      if (end < text.length) {
+        var ss = Math.max(pos, end - Math.floor(size * 0.2));
+        for (var j = end; j >= ss; j--) {
+          if (text[j] === '.' || text[j] === '\n') { end = j + 1; break; }
+        }
+      }
+      var content = text.substring(pos, end).trim();
+      if (content) {
+        var tl = content.split('\n')[0].substring(0,60);
+        if (tl.length >= 60) tl = tl.substring(0,57) + '...';
+        chunks.push({ id: 'chunk-' + String(chunks.length+1).padStart(2,'0'), title: tl, content: content, tokens_est: Math.ceil(content.length/4) });
+      }
+      pos = end;
+    }
+    return chunks;
+  }
+  function chunkSemantic(text) {
+    var headerChunks = chunkHeader(text), result = [];
+    for (var i = 0; i < headerChunks.length; i++) {
+      if (headerChunks[i].tokens_est > 800) {
+        var subs = headerChunks[i].content.split(/\n\n+/);
+        for (var j = 0; j < subs.length; j++) {
+          var s = subs[j].trim();
+          if (!s || s.length < 10) continue;
+          var st = s.match(/^#{1,4}\s+(.+)/);
+          result.push({ id: 'chunk-' + String(result.length+1).padStart(2,'0'), title: st ? st[1].trim() : headerChunks[i].title + ' (part ' + (j+1) + ')', content: s, tokens_est: Math.ceil(s.length/4) });
+        }
+      } else {
+        headerChunks[i].id = 'chunk-' + String(result.length+1).padStart(2,'0');
+        result.push(headerChunks[i]);
+      }
+    }
+    return result;
+  }
+  function doChunk(text, strategy, fixedSize) {
+    if (!text || !text.trim()) return [];
+    switch(strategy) {
+      case 'paragraph': return chunkParagraph(text);
+      case 'fixed': return chunkFixed(text, fixedSize || 500);
+      case 'semantic': return chunkSemantic(text);
+      default: return chunkHeader(text);
+    }
+  }
+  function chunkStats(chunks) {
+    if (!chunks.length) return { count:0, min:0, max:0, avg:0, median:0 };
+    var t = chunks.map(function(c){return c.tokens_est;}).sort(function(a,b){return a-b;});
+    var sum = t.reduce(function(a,b){return a+b;},0);
+    var mid = Math.floor(t.length/2);
+    return { count:t.length, min:t[0], max:t[t.length-1], avg:Math.round(sum/t.length), median:t.length%2?t[mid]:Math.round((t[mid-1]+t[mid])/2) };
+  }
+
+  // ----------------------------------------------------------------
+  // Chunker UI wiring
+  // ----------------------------------------------------------------
+  const STRATEGY_INFO = {
+    header:    { name: 'Header-based', desc: 'Split on markdown headings (##, ###). Best for structured docs.', icon: '#' },
+    paragraph: { name: 'Paragraph',    desc: 'Split on double newlines. Best for prose without headings.',     icon: '¶' },
+    fixed:     { name: 'Fixed length', desc: 'Split every N characters. Consistent size, may split mid-rule.', icon: '✂' },
+    semantic:  { name: 'Semantic',     desc: 'Header split + sub-split long sections by paragraph.',           icon: '⦿' },
+  };
+
+  function initChunkerUI() {
+    var container = $('#chunker-strategies');
+    ['header','paragraph','fixed','semantic'].forEach(function(key) {
+      var info = STRATEGY_INFO[key];
+      var card = document.createElement('label');
+      card.className = 'chunker-strategy-card' + (key === chunkStrategy ? ' active' : '');
+      card.dataset.strategy = key;
+      card.innerHTML =
+        '<input type="radio" name="chunk-strategy" value="' + key + '"' + (key === chunkStrategy ? ' checked' : '') + '>' +
+        '<span class="chunker-strategy-icon">' + info.icon + '</span>' +
+        '<span class="chunker-strategy-name">' + info.name + '</span>' +
+        '<span class="chunker-strategy-desc">' + info.desc + '</span>';
+      card.querySelector('input').addEventListener('change', function() {
+        chunkStrategy = key;
+        container.querySelectorAll('.chunker-strategy-card').forEach(function(c) {
+          c.classList.toggle('active', c.dataset.strategy === key);
+        });
+        $('#chunker-fixed-slider').classList.toggle('visible', key === 'fixed');
+        runChunker();
+      });
+      container.appendChild(card);
+    });
+  }
+  initChunkerUI();
+
+  // Fixed size slider
+  $('#rng-chunk-size').addEventListener('input', function() {
+    chunkFixedSize = parseInt(this.value, 10);
+    $('#chunk-size-val').textContent = chunkFixedSize;
+    runChunker();
+  });
+
+  function runChunker() {
+    var text = $('#inp-rulebook-text').value.trim();
+    if (!text) {
+      rulebookChunks = [];
+      $('#chunker-results').classList.remove('visible');
+      return;
+    }
+    rulebookChunks = doChunk(text, chunkStrategy, chunkFixedSize);
+    var st = chunkStats(rulebookChunks);
+    var resultsEl = $('#chunker-results');
+    resultsEl.classList.add('visible');
+    $('#chunker-results-header').textContent =
+      'Your rulebook was split into ' + st.count + ' chunks using ' + STRATEGY_INFO[chunkStrategy].name;
+
+    var statsRow = $('#chunker-stats-row');
+    statsRow.innerHTML = '';
+    if (st.count > 0) {
+      statsRow.innerHTML =
+        '<span class="chunker-stat"><strong>' + st.count + '</strong> chunks</span>' +
+        '<span class="chunker-stat">min <strong>' + st.min + '</strong> tokens</span>' +
+        '<span class="chunker-stat">max <strong>' + st.max + '</strong> tokens</span>' +
+        '<span class="chunker-stat">avg <strong>' + st.avg + '</strong></span>' +
+        '<span class="chunker-stat">median <strong>' + st.median + '</strong></span>';
+    }
+
+    // Preview first 3 chunks
+    var preview = $('#chunker-preview');
+    preview.innerHTML = '';
+    var show = Math.min(rulebookChunks.length, 3);
+    for (var i = 0; i < show; i++) {
+      var c = rulebookChunks[i];
+      var card = document.createElement('div');
+      card.className = 'chunker-preview-card';
+      var pText = c.content.length > 120 ? c.content.substring(0,117) + '...' : c.content;
+      var headerDiv = document.createElement('div');
+      headerDiv.className = 'chunker-preview-header';
+      headerDiv.innerHTML =
+        '<span class="chunker-preview-id">' + esc(c.id) + '</span>' +
+        '<span class="chunker-preview-title">' + esc(c.title) + '</span>' +
+        '<span class="chunker-preview-tokens">' + c.tokens_est + ' tokens</span>';
+      var contentDiv = document.createElement('div');
+      contentDiv.className = 'chunker-preview-content';
+      contentDiv.textContent = pText;
+      card.appendChild(headerDiv);
+      card.appendChild(contentDiv);
+      preview.appendChild(card);
+    }
+    if (rulebookChunks.length > show) {
+      var more = document.createElement('div');
+      more.className = 'chunker-preview-more';
+      more.textContent = '+ ' + (rulebookChunks.length - show) + ' more chunks';
+      preview.appendChild(more);
+    }
+  }
+
+  $('#btn-chunk-rulebook').addEventListener('click', runChunker);
+  $('#btn-rechunk').addEventListener('click', function() {
+    $('#chunker-results').classList.remove('visible');
+  });
+
+  // Try Cairn 2e example
+  $('#btn-try-cairn').addEventListener('click', async function() {
+    this.disabled = true;
+    this.textContent = 'Loading...';
+    try {
+      var res = await fetch('/static/tools/cairn-srd-example.txt');
+      if (res.ok) {
+        var text = await res.text();
+        $('#inp-rulebook-text').value = text;
+        $('#inp-rulebook-name').value = 'Cairn 2e';
+        runChunker();
+        toast('Cairn 2e SRD loaded (CC-BY-SA 4.0, Yochai Gal)');
+      } else {
+        toast('Could not load Cairn SRD');
+      }
+    } catch(e) {
+      toast('Network error loading example');
+    }
+    this.disabled = false;
+    this.textContent = 'Try Cairn 2e (CC-BY-SA)';
+  });
+
+  // ----------------------------------------------------------------
+  // Emoji picker
+  // ----------------------------------------------------------------
+  function buildEmojiPicker(container, emojis, currentEmoji, onPick) {
+    container.innerHTML = '';
+    emojis.forEach(function(em) {
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.textContent = em;
+      btn.className = em === currentEmoji ? 'selected' : '';
+      btn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        container.querySelectorAll('button').forEach(function(b) { b.classList.remove('selected'); });
+        btn.classList.add('selected');
+        onPick(em);
+        container.classList.remove('open');
+      });
+      container.appendChild(btn);
+    });
+  }
+
+  // DM emoji picker
+  buildEmojiPicker($('#dm-emoji-picker'), DM_EMOJIS, dmEmoji, function(em) {
+    dmEmoji = em;
+    $('#dm-emoji-trigger').textContent = em;
+  });
+  $('#dm-emoji-trigger').addEventListener('click', function() {
+    $('#dm-emoji-picker').classList.toggle('open');
+  });
+
+  function showSetupError(msg) {
+    const el = $('#setup-error');
+    el.textContent = msg;
+  }
+
+  function clearSetupError() {
+    $('#setup-error').textContent = '';
+  }
+
+  // Initialize first character's emoji picker
+  function initCharEmojiPicker(idx) {
+    var defaultEmoji = CHARACTER_EMOJIS[idx % CHARACTER_EMOJIS.length];
+    charEmojis[idx] = charEmojis[idx] || defaultEmoji;
+    var picker = document.querySelector('.char-emoji-picker[data-index="' + idx + '"]');
+    var trigger = document.querySelector('.char-emoji-trigger[data-index="' + idx + '"]');
+    if (!picker || !trigger) return;
+    trigger.textContent = charEmojis[idx];
+    buildEmojiPicker(picker, CHARACTER_EMOJIS, charEmojis[idx], function(em) {
+      charEmojis[idx] = em;
+      trigger.textContent = em;
+    });
+    trigger.addEventListener('click', function(e) {
+      e.stopPropagation();
+      picker.classList.toggle('open');
+    });
+  }
+  initCharEmojiPicker(0);
+
+  // Add character slot
+  $('#btn-add-char').addEventListener('click', () => {
+    if (charCount >= 8) { toast('Maximum 8 characters'); return; }
+    charCount++;
+    const idx = charCount - 1;
+    charEmojis[idx] = CHARACTER_EMOJIS[idx % CHARACTER_EMOJIS.length];
+    const slot = document.createElement('div');
+    slot.className = 'char-slot';
+    slot.dataset.index = idx;
+    slot.innerHTML = `
+      <div class="char-slot__header">
+        <span>Character ${charCount}</span>
+        <button class="char-slot__remove">remove</button>
+      </div>
+      <div class="char-slot__body">
+        <div class="char-name-row">
+          <input type="text" class="char-name" placeholder="Character name" maxlength="80">
+          <span class="emoji-trigger char-emoji-trigger" data-index="${idx}" title="Pick emoji">${charEmojis[idx]}</span>
+          <div class="emoji-picker char-emoji-picker" data-index="${idx}"></div>
+        </div>
+        <textarea class="char-md" placeholder="# Character Name\n\nPersonality, backstory, abilities..."></textarea>
+      </div>`;
+    slot.querySelector('.char-slot__header').addEventListener('click', function(e) {
+      if (e.target.classList.contains('char-slot__remove')) return;
+      const body = this.parentElement.querySelector('.char-slot__body');
+      body.style.display = body.style.display === 'none' ? '' : 'none';
+    });
+    slot.querySelector('.char-slot__remove').addEventListener('click', function(e) {
+      e.stopPropagation();
+      if ($$('.char-slot').length <= 1) { toast('Need at least 1 character'); return; }
+      this.closest('.char-slot').remove();
+      charCount--;
+    });
+    $('#char-slots').appendChild(slot);
+    initCharEmojiPicker(idx);
+  });
+
+  // Launch campaign
+  $('#btn-start').addEventListener('click', async () => {
+    const name = $('#inp-campaign-name').value.trim() || 'Untitled Campaign';
+    const dmMd = $('#inp-dm-md').value.trim();
+    const charMds = Array.from($$('.char-md')).map(t => t.value.trim()).filter(Boolean);
+
+    // Gather character names and emojis
+    const charNameEls = Array.from($$('.char-name'));
+    const charNameValues = charNameEls.map(el => el.value.trim());
+    const charSlots = Array.from($$('.char-slot'));
+    const charEmojiValues = charSlots.map(function(slot) {
+      var idx = parseInt(slot.dataset.index, 10);
+      return charEmojis[idx] || '';
+    });
+
+    // DM name and emoji
+    const dmNameVal = $('#inp-dm-name').value.trim();
+
+    // Rulebook
+    const rulebookName = $('#inp-rulebook-name').value.trim();
+    // Auto-chunk if text is present but chunks haven't been generated
+    if ($('#inp-rulebook-text').value.trim() && rulebookChunks.length === 0) {
+      runChunker();
+    }
+
+    clearSetupError();
+    if (!dmMd) { showSetupError('A Dungeon Master markdown is required.'); return; }
+    if (charMds.length < 1) { showSetupError('Add at least one character with content.'); return; }
+
+    $('#btn-start').disabled = true;
+    $('#btn-start').textContent = 'Creating...';
+
+    try {
+      const payload = {
+        name: name,
+        dm_markdown: dmMd,
+        dm_name: dmNameVal,
+        dm_emoji: dmEmoji,
+        characters: charMds,
+        char_names: charNameValues,
+        char_emojis: charEmojiValues,
+      };
+      // Include rulebook chunks if present
+      if (rulebookChunks.length > 0) {
+        payload.rulebook_chunks = rulebookChunks;
+        payload.rulebook_name = rulebookName || 'Custom Rulebook';
+      }
+
+      const res = await fetch(BASE + '/create', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        showSetupError(data.error || 'Failed to create campaign.');
+        $('#btn-start').disabled = false;
+        $('#btn-start').textContent = 'Launch Campaign';
+        return;
+      }
+      code = data.code;
+      setHash(code);
+      clearDraft();
+      localStorage.setItem('dnd.last-campaign', code);
+      enterCampaign();
+    } catch (e) {
+      showSetupError('Network error. Try again.');
+      $('#btn-start').disabled = false;
+      $('#btn-start').textContent = 'Launch Campaign';
+    }
+  });
+
+  // ----------------------------------------------------------------
+  // Enter campaign mode
+  // ----------------------------------------------------------------
+  function enterCampaign() {
+    $('#setup-screen').classList.add('hidden');
+    $('#top-bar').style.display = '';
+    $('#mobile-tabs').style.display = '';
+    $('#app').classList.add('active');
+    initMobileTabs();
+    renderedLogCount = 0;
+    lastSeq = -1;
+
+    // Restore preferences
+    $('#xray-check').checked = xrayMode;
+    $('#chk-autoplay').checked = autoplayOn;
+    $('#rng-speed').value = autoplaySpeed;
+    $('#speed-val').textContent = autoplaySpeed + 's';
+
+    pollState();
+    pollTimer = setInterval(pollState, 1000);
+    if (autoplayOn) startAutoplay();
+  }
+
+  // ----------------------------------------------------------------
+  // Mobile tab switching
+  // ----------------------------------------------------------------
+  function initMobileTabs() {
+    const btns = $$('#mobile-tabs button');
+    btns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        btns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const panel = btn.dataset.panel;
+        $('#panel-roster').classList.toggle('mobile-active', panel === 'roster');
+        $('#panel-campaign').classList.toggle('mobile-active', panel === 'campaign');
+        $('#panel-controls').classList.toggle('mobile-active', panel === 'controls');
+      });
+    });
+  }
+
+  // ----------------------------------------------------------------
+  // Poll state
+  // ----------------------------------------------------------------
+  async function pollState() {
+    if (!code) return;
+    try {
+      const url = BASE + '/' + code + '/state' + (lastSeq >= 0 ? '?since=' + lastSeq : '');
+      const res = await fetch(url);
+      if (!res.ok) return;
+      const data = await res.json();
+      if (data.nochange) return;
+      lastSeq = data.seq;
+      campaignState = data;
+      renderAll(data);
+    } catch (e) { /* silent */ }
+  }
+
+  // ----------------------------------------------------------------
+  // 12-factor definitions
+  // ----------------------------------------------------------------
+  const TWELVE_FACTORS = [
+    { id: 'instructions', name: 'Natural-language instructions', check: function(s) { return Object.values(s.agents||{}).some(function(a){ return (a.system_prompt||'').length > 50; }); } },
+    { id: 'tools', name: 'Tool use', check: function(s) { return Object.values(s.agents||{}).some(function(a){ return (a.tools||[]).length >= 2; }); } },
+    { id: 'retrieval', name: 'Retrieval (RAG)', check: function(s) { return (s.rulebook_chunks||0) > 0; } },
+    { id: 'context', name: 'Context management', check: function(s) { return (s.log||[]).some(function(e){ return e.type === 'compaction' || (e.context_estimate && e.context_estimate.total > 0); }); } },
+    { id: 'structured', name: 'Structured output', check: function(s) { return (s.log||[]).some(function(e){ return (e.tool_calls||[]).length > 0; }); } },
+    { id: 'human', name: 'Human-in-the-loop', check: function(s) { return (s.log||[]).some(function(e){ return (e.whispers_received||[]).length > 0; }) || s.whispers_pending > 0; } },
+    { id: 'planning', name: 'Planning', check: function(s) { return (s.log||[]).some(function(e){ return (e.reasoning||'').length > 30; }); } },
+    { id: 'multiagent', name: 'Multi-agent', check: function(s) { return (s.agent_order||[]).length >= 2; } },
+    { id: 'guardrails', name: 'Guardrails', check: function() { return true; } }, // rate limits + budget cap exist
+    { id: 'state', name: 'State management', check: function(s) { return Object.keys(s.facts||{}).length > 0 || Object.keys(s.npcs||{}).length > 0; } },
+    { id: 'observability', name: 'Observability', check: function(s) { return (s.log||[]).some(function(e){ return e.tokens_in > 0 || (e.reasoning||'').length > 0; }); } },
+    { id: 'evaluation', name: 'Evaluation', check: function() { return false; } }, // no eval suite in the tool
+  ];
+
+  function score12Factors(state) {
+    var passed = 0;
+    var results = TWELVE_FACTORS.map(function(f) {
+      var p = f.check(state);
+      if (p) passed++;
+      return { id: f.id, name: f.name, pass: p };
+    });
+    return { score: passed, total: 12, results: results };
+  }
+
+  // JSON syntax highlighting
+  function syntaxHighlight(json) {
+    if (typeof json !== 'string') json = JSON.stringify(json, null, 2);
+    return json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?)/g, function(match) {
+        if (/:$/.test(match)) return '<span class="j-key">' + match + '</span>';
+        return '<span class="j-str">' + match + '</span>';
+      })
+      .replace(/\b(-?\d+\.?\d*([eE][+-]?\d+)?)\b/g, '<span class="j-num">$1</span>')
+      .replace(/\b(true|false)\b/g, '<span class="j-bool">$1</span>')
+      .replace(/\bnull\b/g, '<span class="j-null">null</span>');
+  }
+
+  // ----------------------------------------------------------------
+  // Render everything
+  // ----------------------------------------------------------------
+  function renderAll(state) {
+    renderTopBar(state);
+    renderRoster(state);
+    renderLog(state);
+    renderMemory(state);
+    renderArchitecture(state);
+    renderControls(state);
+  }
+
+  // ---- Top bar ----
+  function renderTopBar(state) {
+    $('#tb-title').textContent = state.name || 'Campaign';
+    const order = state.agent_order || [];
+    const agentCount = order.length;
+    const turnIndex = state.current_agent_index || 0;
+    $('#tb-round').textContent = 'Round ' + state.current_round + ' • Turn ' + (turnIndex + 1) + ' of ' + agentCount;
+    const status = state.status || 'active';
+    const statusEl = $('#tb-status');
+    statusEl.dataset.status = status;
+    statusEl.textContent = status.charAt(0).toUpperCase() + status.slice(1);
+    $('#tb-code').textContent = state.code;
+    // Rulebook badge
+    const rbEl = $('#tb-rulebook');
+    if (state.rulebook_name && state.rulebook_chunks > 0) {
+      rbEl.style.display = '';
+      rbEl.textContent = state.rulebook_name + ' (' + state.rulebook_chunks + ' chunks)';
+    } else {
+      rbEl.style.display = 'none';
+    }
+  }
+
+  // Copy code on click
+  $('#tb-code').addEventListener('click', () => {
+    if (code) {
+      navigator.clipboard.writeText(code).then(() => toast('Code copied'));
+    }
+  });
+
+  // ---- Agent Roster ----
+  function renderRoster(state) {
+    const container = $('#roster-list');
+    const order = state.agent_order || [];
+    const nextAgentId = order[state.current_agent_index] || '';
+
+    // Only rebuild DOM if agent count changed
+    if (container.children.length !== order.length) {
+      container.innerHTML = '';
+      order.forEach((aid, i) => {
+        const a = state.agents[aid];
+        if (!a) return;
+        const card = document.createElement('div');
+        card.className = 'agent-card' + (a.role === 'dm' ? ' dm' : '');
+        card.dataset.aid = aid;
+
+        const isDM = a.role === 'dm';
+        const playerColor = isDM ? '' : PLAYER_COLORS[(i - 1) % PLAYER_COLORS.length];
+        if (!isDM) card.style.borderLeftColor = playerColor;
+        if (!isDM) card.style.borderLeftWidth = '3px';
+
+        const summary = extractSummary(a.system_prompt || '');
+
+        const topDiv = document.createElement('div');
+        topDiv.className = 'agent-card__top';
+        const emojiSpan = document.createElement('span');
+        emojiSpan.className = 'agent-card__emoji';
+        emojiSpan.textContent = a.emoji || '';
+        const nameSpan = document.createElement('span');
+        nameSpan.className = 'agent-card__name' + (isDM ? ' dm-name' : '');
+        nameSpan.textContent = a.name || aid;
+        if (!isDM) nameSpan.style.color = playerColor;
+        const roleSpan = document.createElement('span');
+        roleSpan.className = 'agent-card__role ' + (isDM ? 'dm-role' : 'player-role');
+        roleSpan.textContent = isDM ? 'DM' : 'Player';
+        topDiv.appendChild(emojiSpan);
+        topDiv.appendChild(nameSpan);
+        topDiv.appendChild(roleSpan);
+
+        const summaryDiv = document.createElement('div');
+        summaryDiv.className = 'agent-card__summary';
+        summaryDiv.textContent = summary;
+
+        const whisperBtn = document.createElement('button');
+        whisperBtn.className = 'agent-card__whisper-btn';
+        whisperBtn.textContent = 'Whisper';
+        whisperBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          toggleWhisperInput(aid, card);
+        });
+
+        // Whisper input (inline)
+        const whisperInput = document.createElement('div');
+        whisperInput.className = 'whisper-input';
+        whisperInput.dataset.aid = aid;
+        whisperInput.innerHTML = `
+          <textarea placeholder="Whisper something to ${esc(a.name)}..."></textarea>
+          <div class="whisper-input__actions">
+            <button class="whisper-input__cancel">Cancel</button>
+            <button class="whisper-input__send">Send</button>
+          </div>`;
+        whisperInput.querySelector('.whisper-input__cancel').addEventListener('click', (e) => {
+          e.stopPropagation();
+          whisperInput.classList.remove('open');
+          activeWhisperAgent = null;
+        });
+        whisperInput.querySelector('.whisper-input__send').addEventListener('click', (e) => {
+          e.stopPropagation();
+          const text = whisperInput.querySelector('textarea').value.trim();
+          if (text) sendWhisper(aid, text);
+          whisperInput.classList.remove('open');
+          activeWhisperAgent = null;
+        });
+
+        // Detail (full system prompt)
+        const detail = document.createElement('div');
+        detail.className = 'agent-card__detail';
+        const pre = document.createElement('pre');
+        pre.textContent = a.system_prompt || '(no system prompt)';
+        detail.appendChild(pre);
+
+        card.addEventListener('click', () => {
+          if (expandedAgentCard === aid) {
+            detail.classList.remove('open');
+            expandedAgentCard = null;
+          } else {
+            // Close other expanded
+            container.querySelectorAll('.agent-card__detail.open').forEach(d => d.classList.remove('open'));
+            detail.classList.add('open');
+            expandedAgentCard = aid;
+          }
+        });
+
+        card.appendChild(topDiv);
+        card.appendChild(summaryDiv);
+        card.appendChild(whisperBtn);
+        card.appendChild(whisperInput);
+        card.appendChild(detail);
+        container.appendChild(card);
+      });
+    }
+
+    // Update current highlight
+    container.querySelectorAll('.agent-card').forEach(card => {
+      card.classList.toggle('current', card.dataset.aid === nextAgentId);
+    });
+  }
+
+  function extractSummary(md) {
+    const lines = md.split('\n');
+    for (const line of lines) {
+      const trimmed = line.trim();
+      if (trimmed && !trimmed.startsWith('#') && trimmed.length > 10) {
+        return trimmed.length > 80 ? trimmed.substring(0, 77) + '...' : trimmed;
+      }
+    }
+    return '';
+  }
+
+  function toggleWhisperInput(aid, card) {
+    // Close any open whisper
+    $$('.whisper-input.open').forEach(w => w.classList.remove('open'));
+
+    if (activeWhisperAgent === aid) {
+      activeWhisperAgent = null;
+      return;
+    }
+    const input = card.querySelector('.whisper-input');
+    input.classList.add('open');
+    input.querySelector('textarea').value = '';
+    input.querySelector('textarea').focus();
+    activeWhisperAgent = aid;
+  }
+
+  async function sendWhisper(agentId, text) {
+    if (!code) return;
+    try {
+      const res = await fetch(BASE + '/' + code + '/whisper', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ agent_id: agentId, text: text }),
+      });
+      if (res.ok) {
+        toast('Whisper sent');
+        pollState();
+      } else {
+        const data = await res.json();
+        toast(data.error || 'Whisper failed');
+      }
+    } catch (e) {
+      toast('Network error');
+    }
+  }
+
+  // ---- Campaign Log ----
+  function renderLog(state) {
+    const log = state.log || [];
+    const scrollEl = $('#log-scroll');
+    const empty = $('#log-empty');
+
+    if (log.length === 0) {
+      empty.style.display = '';
+      return;
+    }
+    empty.style.display = 'none';
+
+    // Check if user has scrolled up
+    const atBottom = scrollEl.scrollTop + scrollEl.clientHeight >= scrollEl.scrollHeight - 30;
+
+    // Incremental rendering: only add new entries
+    const startFrom = renderedLogCount;
+    for (let i = startFrom; i < log.length; i++) {
+      const entry = log[i];
+      const card = buildTurnCard(entry, state);
+      scrollEl.appendChild(card);
+    }
+    renderedLogCount = log.length;
+
+    // Apply x-ray mode to all details
+    if (xrayMode) {
+      scrollEl.querySelectorAll('details').forEach(d => d.open = true);
+    }
+
+    // Auto-scroll
+    if (atBottom || !userScrolled) {
+      scrollEl.scrollTop = scrollEl.scrollHeight;
+    }
+
+    // Update context bar
+    updateContextBar(state);
+  }
+
+  function buildTurnCard(entry, state) {
+    const agent = state.agents[entry.agent_id] || {};
+    const isDM = agent.role === 'dm';
+    const isCompaction = entry.type === 'compaction';
+
+    // Enhanced compaction card
+    if (isCompaction) return buildCompactionCard(entry, state);
+
+    const card = document.createElement('div');
+    card.className = 'turn-card' + (isDM ? ' dm-turn' : '');
+
+    // ---- Level 0: Header + message (always visible) ----
+    const header = document.createElement('div');
+    header.className = 'turn-card__header';
+
+    const emoji = document.createElement('span');
+    emoji.className = 'turn-card__emoji';
+    emoji.textContent = agent.emoji || '';
+
+    const name = document.createElement('span');
+    name.className = 'turn-card__agent-name' + (isDM ? ' dm' : '');
+    name.textContent = agent.name || entry.agent_id;
+
+    if (!isDM) {
+      const order = state.agent_order || [];
+      const idx = order.indexOf(entry.agent_id);
+      if (idx > 0) name.style.color = PLAYER_COLORS[(idx - 1) % PLAYER_COLORS.length];
+    }
+
+    const roundTag = document.createElement('span');
+    roundTag.className = 'turn-card__round-tag';
+    roundTag.textContent = 'Round ' + entry.round;
+
+    header.appendChild(emoji);
+    header.appendChild(name);
+    header.appendChild(roundTag);
+    card.appendChild(header);
+
+    // Message (always visible — Level 0)
+    const msg = document.createElement('div');
+    msg.className = 'turn-card__message';
+    msg.textContent = entry.message || '';
+    card.appendChild(msg);
+
+    // Whispers received (Level 0 — part of the narrative)
+    if (entry.whispers_received && entry.whispers_received.length > 0) {
+      const wDiv = document.createElement('div');
+      wDiv.className = 'turn-card__whispers';
+      entry.whispers_received.forEach(w => {
+        const wItem = document.createElement('div');
+        wItem.className = 'turn-card__whisper';
+        wItem.textContent = 'Whisper: "' + (w.text || '') + '"';
+        wDiv.appendChild(wItem);
+      });
+      card.appendChild(wDiv);
+    }
+
+    // ---- Level 1: "How this turn worked" (one click) ----
+    const hasDetail = (entry.reasoning && entry.reasoning.length > 20) ||
+                      (entry.tool_calls && entry.tool_calls.length > 0) ||
+                      entry.tokens_in > 0 || entry.tokens_out > 0;
+
+    if (hasDetail) {
+      const trigger = document.createElement('span');
+      trigger.className = 'turn-detail-trigger' + (xrayMode ? ' open' : '');
+      trigger.textContent = 'How this turn worked';
+
+      const detailBody = document.createElement('div');
+      detailBody.className = 'turn-detail-body' + (xrayMode ? ' open' : '');
+      let detailRendered = xrayMode;
+
+      trigger.addEventListener('click', function() {
+        const isOpen = detailBody.classList.toggle('open');
+        trigger.classList.toggle('open', isOpen);
+        if (isOpen && !detailRendered) {
+          renderTurnDetail(detailBody, entry, state);
+          detailRendered = true;
+        }
+      });
+
+      if (xrayMode) renderTurnDetail(detailBody, entry, state);
+
+      card.appendChild(trigger);
+      card.appendChild(detailBody);
+    }
+
+    return card;
+  }
+
+  // Render the Level 1 detail body (lazy)
+  function renderTurnDetail(container, entry, state) {
+    // Chain of thought
+    if (entry.reasoning && entry.reasoning.length > 20) {
+      var sec = document.createElement('div');
+      sec.className = 'td-section';
+      var hdr = document.createElement('div');
+      hdr.className = 'td-section__header';
+      hdr.innerHTML = '<span class="td-section__header-icon">&#129504;</span> What the agent was thinking';
+      sec.appendChild(hdr);
+      var content = document.createElement('div');
+      content.className = 'monologue-content';
+      content.textContent = entry.reasoning;
+      sec.appendChild(content);
+      container.appendChild(sec);
+    }
+
+    // Prompt context — "What the agent saw"
+    if (entry.prompt_context) {
+      var sec = document.createElement('div');
+      sec.className = 'td-section';
+      var hdr = document.createElement('div');
+      hdr.className = 'td-section__header';
+      hdr.innerHTML = '<span class="td-section__header-icon">&#128220;</span> What the agent saw';
+      sec.appendChild(hdr);
+      var pcDiv = document.createElement('div');
+      pcDiv.className = 'prompt-context';
+      var pc = entry.prompt_context;
+      if (pc.system_prompt) {
+        var sysLen = Math.ceil(pc.system_prompt.length / 4);
+        pcDiv.appendChild(buildPromptSection('System prompt', '~' + fmtNum(sysLen) + ' tokens', function(body) {
+          var pre = document.createElement('div');
+          pre.className = 'prompt-section__pre';
+          pre.textContent = pc.system_prompt;
+          body.appendChild(pre);
+        }));
+      }
+      if (pc.messages && pc.messages.length > 0) {
+        pcDiv.appendChild(buildPromptSection('Messages (' + pc.messages.length + ')', null, function(body) {
+          pc.messages.forEach(function(m) {
+            var msgEl = document.createElement('div');
+            var role = m.role || 'user';
+            msgEl.className = 'prompt-msg role-' + role;
+            var roleEl = document.createElement('div');
+            roleEl.className = 'prompt-msg__role';
+            roleEl.textContent = role;
+            msgEl.appendChild(roleEl);
+            var contentEl = document.createElement('div');
+            contentEl.className = 'prompt-msg__content';
+            var text = m.content || '';
+            if (!text && m.tool_calls) {
+              text = '[tool_calls: ' + m.tool_calls.map(function(tc) { return tc.function ? tc.function.name : '?'; }).join(', ') + ']';
+            }
+            contentEl.textContent = text.length > 2000 ? text.substring(0, 2000) + '\n... (' + text.length + ' chars total)' : text;
+            msgEl.appendChild(contentEl);
+            body.appendChild(msgEl);
+          });
+        }));
+      }
+      if (pc.tools && pc.tools.length > 0) {
+        pcDiv.appendChild(buildPromptSection('Tools available (' + pc.tools.length + ')', null, function(body) {
+          var toolsDiv = document.createElement('div');
+          toolsDiv.className = 'prompt-tools-list';
+          pc.tools.forEach(function(t) {
+            var tag = document.createElement('span');
+            tag.className = 'prompt-tool-tag';
+            tag.textContent = t;
+            toolsDiv.appendChild(tag);
+          });
+          body.appendChild(toolsDiv);
+        }));
+      }
+      sec.appendChild(pcDiv);
+      container.appendChild(sec);
+    }
+
+    // Tool calls — enhanced detail
+    if (entry.tool_calls && entry.tool_calls.length > 0) {
+      var sec = document.createElement('div');
+      sec.className = 'td-section';
+      var hdr = document.createElement('div');
+      hdr.className = 'td-section__header';
+      hdr.innerHTML = '<span class="td-section__header-icon">&#128295;</span> Tools called (' + entry.tool_calls.length + ')';
+      sec.appendChild(hdr);
+
+      entry.tool_calls.forEach(function(tc) {
+        if (tc.name === 'lookup_rule') {
+          // RAG pipeline visualization
+          sec.appendChild(buildRagFlow(tc, state));
+        } else {
+          sec.appendChild(buildToolDetail(tc));
+        }
+      });
+      container.appendChild(sec);
+    }
+
+    // Memory changes — find remember_fact calls
+    var memCalls = (entry.tool_calls || []).filter(function(tc) {
+      return tc.name === 'remember_fact';
+    });
+    if (memCalls.length > 0) {
+      var sec = document.createElement('div');
+      sec.className = 'td-section';
+      var hdr = document.createElement('div');
+      hdr.className = 'td-section__header';
+      hdr.innerHTML = '<span class="td-section__header-icon">&#128190;</span> Memory changes';
+      sec.appendChild(hdr);
+
+      memCalls.forEach(function(tc) {
+        var change = document.createElement('div');
+        change.className = 'mem-change added';
+        var factText = (tc.args && tc.args.fact) || '';
+        var cat = (tc.args && tc.args.category) || 'world';
+        change.textContent = '+ "' + factText + '" (' + cat + ')';
+        sec.appendChild(change);
+      });
+      container.appendChild(sec);
+    }
+
+    // Token usage
+    if (entry.tokens_in > 0 || entry.tokens_out > 0) {
+      var sec = document.createElement('div');
+      sec.className = 'td-section';
+      var hdr = document.createElement('div');
+      hdr.className = 'td-section__header';
+      hdr.innerHTML = '<span class="td-section__header-icon">&#128202;</span> Token usage';
+      sec.appendChild(hdr);
+
+      var meta = document.createElement('div');
+      meta.className = 'meta-content';
+      var parts = [];
+      parts.push('Input: ' + fmtNum(entry.tokens_in || 0) + ' tokens');
+      parts.push('Output: ' + fmtNum(entry.tokens_out || 0) + ' tokens');
+      if (entry.tokens_in || entry.tokens_out) {
+        var costCents = ((entry.tokens_in || 0) / 1000000) * 100 + ((entry.tokens_out || 0) / 1000000) * 300;
+        parts.push('Est. cost: $' + (costCents / 100).toFixed(4));
+      }
+
+      // Context fill bar
+      if (entry.context_estimate && entry.context_estimate.total) {
+        var pct = Math.round((entry.context_estimate.total / 32000) * 100);
+        parts.push('Context fill: ' + pct + '%');
+      }
+
+      meta.textContent = parts.join(' | ');
+      sec.appendChild(meta);
+
+      // Context breakdown bars if available
+      if (entry.context_estimate && entry.context_estimate.breakdown) {
+        var bd = entry.context_estimate.breakdown;
+        var cats = [
+          { key: 'system', label: 'System', color: 'system' },
+          { key: 'tools', label: 'Tools', color: 'tools' },
+          { key: 'history', label: 'History', color: 'history' },
+          { key: 'facts', label: 'Facts', color: 'facts' },
+          { key: 'notes', label: 'Notes', color: 'notes' },
+        ];
+        cats.forEach(function(cat) {
+          var val = bd[cat.key] || 0;
+          if (val === 0) return;
+          var pct = Math.round((val / 32000) * 100);
+          var row = document.createElement('div');
+          row.className = 'token-bar-row';
+          var label = document.createElement('span');
+          label.className = 'token-bar-label';
+          label.textContent = cat.label;
+          var bar = document.createElement('div');
+          bar.className = 'token-bar';
+          var barFill = document.createElement('div');
+          barFill.className = 'token-bar__fill ' + cat.color;
+          barFill.style.width = Math.min(100, pct) + '%';
+          bar.appendChild(barFill);
+          var valSpan = document.createElement('span');
+          valSpan.className = 'token-bar-val';
+          valSpan.textContent = fmtNum(val);
+          row.appendChild(label);
+          row.appendChild(bar);
+          row.appendChild(valSpan);
+          sec.appendChild(row);
+        });
+      }
+      container.appendChild(sec);
+    }
+
+    // ---- Level 2: JSON Inspector ----
+    var jsonTrigger = document.createElement('span');
+    jsonTrigger.className = 'json-trigger';
+    jsonTrigger.textContent = 'View JSON';
+    var jsonPanel = document.createElement('div');
+    jsonPanel.className = 'json-inspector';
+
+    jsonTrigger.addEventListener('click', function() {
+      var isOpen = jsonPanel.classList.toggle('open');
+      if (isOpen && !jsonPanel.dataset.rendered) {
+        jsonPanel.innerHTML = syntaxHighlight(JSON.stringify(entry, null, 2));
+        jsonPanel.dataset.rendered = '1';
+      }
+    });
+
+    container.appendChild(jsonTrigger);
+    container.appendChild(jsonPanel);
+  }
+
+  function buildPromptSection(label, meta, renderFn) {
+    var section = document.createElement('div');
+    section.className = 'prompt-section';
+    var trigger = document.createElement('div');
+    trigger.className = 'prompt-section__trigger';
+    var labelSpan = document.createElement('span');
+    labelSpan.className = 'prompt-section__label';
+    labelSpan.textContent = label;
+    trigger.appendChild(labelSpan);
+    if (meta) {
+      var metaSpan = document.createElement('span');
+      metaSpan.className = 'prompt-section__meta';
+      metaSpan.textContent = meta;
+      trigger.appendChild(metaSpan);
+    }
+    var body = document.createElement('div');
+    body.className = 'prompt-section__body';
+    var rendered = false;
+    trigger.addEventListener('click', function() {
+      var isOpen = body.classList.toggle('open');
+      trigger.classList.toggle('open', isOpen);
+      if (isOpen && !rendered) { renderFn(body); rendered = true; }
+    });
+    section.appendChild(trigger);
+    section.appendChild(body);
+    return section;
+  }
+
+  // Build enhanced tool detail card
+  function buildToolDetail(tc) {
+    var el = document.createElement('div');
+    el.className = 'tool-detail';
+    if (tc.name) el.dataset.tool = tc.name;
+
+    var nameRow = document.createElement('div');
+    nameRow.className = 'tool-detail__row';
+    var nameLabel = document.createElement('span');
+    nameLabel.className = 'tool-detail__label';
+    nameLabel.textContent = 'Tool';
+    var nameVal = document.createElement('span');
+    nameVal.className = 'tool-detail__val';
+    nameVal.style.fontWeight = '700';
+    nameVal.textContent = tc.name;
+    nameRow.appendChild(nameLabel);
+    nameRow.appendChild(nameVal);
+    el.appendChild(nameRow);
+
+    // Args
+    if (tc.args && Object.keys(tc.args).length > 0) {
+      Object.entries(tc.args).forEach(function(pair) {
+        var row = document.createElement('div');
+        row.className = 'tool-detail__row tool-detail__connector';
+        var label = document.createElement('span');
+        label.className = 'tool-detail__label';
+        label.textContent = pair[0];
+        var val = document.createElement('span');
+        val.className = 'tool-detail__val';
+        val.textContent = JSON.stringify(pair[1]);
+        row.appendChild(label);
+        row.appendChild(val);
+        el.appendChild(row);
+      });
+    }
+
+    // Result
+    var resultRow = document.createElement('div');
+    resultRow.className = 'tool-detail__row';
+    resultRow.style.marginTop = '0.2rem';
+    resultRow.style.paddingTop = '0.2rem';
+    resultRow.style.borderTop = '1px solid var(--border-subtle)';
+    var resultLabel = document.createElement('span');
+    resultLabel.className = 'tool-detail__label';
+    resultLabel.textContent = 'Result';
+    var resultVal = document.createElement('span');
+    resultVal.className = 'tool-detail__val';
+    resultVal.appendChild(formatResult(tc));
+    resultRow.appendChild(resultLabel);
+    resultRow.appendChild(resultVal);
+    el.appendChild(resultRow);
+
+    return el;
+  }
+
+  // Build RAG pipeline visualization for lookup_rule
+  function buildRagFlow(tc, state) {
+    var flow = document.createElement('div');
+    flow.className = 'rag-flow';
+
+    var query = (tc.args && tc.args.query) || '';
+    var resultText = tc.result || '';
+    var chunkCount = state.rulebook_chunks || 0;
+    var rulebookName = state.rulebook_name || 'Rulebook';
+
+    // Step 1: Query
+    flow.appendChild(buildRagStep('Query', '"' + query + '"', true));
+
+    // Step 2: Chunks
+    flow.appendChild(buildRagStep('Chunk store', chunkCount + ' chunks from ' + rulebookName, true));
+
+    // Step 3: Search + results
+    var chunkMatches = resultText.split(/\n---\s/).slice(1);
+    if (chunkMatches.length > 0) {
+      var searchStep = buildRagStep('Keyword search', 'Matched ' + chunkMatches.length + ' chunk' + (chunkMatches.length !== 1 ? 's' : ''), true);
+
+      // Parse and show matched chunks
+      chunkMatches.forEach(function(chunkText) {
+        var titleMatch = chunkText.match(/^(.+?)\s*\(relevance:\s*(\d+)\)\s*---\n?([\s\S]*)/);
+        if (titleMatch) {
+          var resultCard = document.createElement('div');
+          resultCard.className = 'rag-result-card';
+          var titleEl = document.createElement('span');
+          titleEl.className = 'rag-result-title';
+          titleEl.textContent = titleMatch[1].trim();
+          var scoreEl = document.createElement('span');
+          scoreEl.className = 'rag-result-score';
+          scoreEl.textContent = 'score: ' + titleMatch[2];
+          var previewEl = document.createElement('div');
+          previewEl.className = 'rag-result-preview';
+          var ct = titleMatch[3].trim();
+          previewEl.textContent = ct.length > 120 ? ct.substring(0, 117) + '...' : ct;
+          resultCard.appendChild(titleEl);
+          resultCard.appendChild(scoreEl);
+          resultCard.appendChild(previewEl);
+          searchStep.querySelector('.rag-step__content').appendChild(resultCard);
+        }
+      });
+      flow.appendChild(searchStep);
+    } else if (resultText.includes('No matching rules') || resultText.includes('No rulebook')) {
+      flow.appendChild(buildRagStep('Search', 'No matching rules found — DM adjudicates', false));
+    }
+
+    // Step 4: Used in narration
+    flow.appendChild(buildRagStep('Result', chunkMatches.length > 0 ? 'Top result used in narration' : 'DM adjudicated without rules', false));
+
+    return flow;
+  }
+
+  function buildRagStep(label, detail, hasLine) {
+    var step = document.createElement('div');
+    step.className = 'rag-step';
+
+    var pipe = document.createElement('div');
+    pipe.className = 'rag-step__pipe';
+    var dot = document.createElement('div');
+    dot.className = 'rag-step__dot';
+    pipe.appendChild(dot);
+    if (hasLine) {
+      var line = document.createElement('div');
+      line.className = 'rag-step__line';
+      pipe.appendChild(line);
+    }
+
+    var content = document.createElement('div');
+    content.className = 'rag-step__content';
+    var labelEl = document.createElement('div');
+    labelEl.className = 'rag-step__label';
+    labelEl.textContent = label;
+    content.appendChild(labelEl);
+    if (detail) {
+      var detailEl = document.createElement('div');
+      detailEl.className = 'rag-step__detail';
+      detailEl.textContent = detail;
+      content.appendChild(detailEl);
+    }
+
+    step.appendChild(pipe);
+    step.appendChild(content);
+    return step;
+  }
+
+  // Build enhanced compaction card
+  function buildCompactionCard(entry, state) {
+    var card = document.createElement('div');
+    card.className = 'turn-card compaction-enhanced';
+
+    // Banner
+    var banner = document.createElement('div');
+    banner.className = 'compaction-banner';
+    banner.textContent = 'CONTEXT COMPACTED — Round ' + entry.round;
+    card.appendChild(banner);
+
+    // Stats
+    var tokensBefore = entry.tokens_before || 0;
+    var tokensAfter = entry.tokens_after || 0;
+    var factsExtracted = entry.facts_extracted || [];
+    var roundsCompacted = entry.rounds_compacted || [];
+
+    if (tokensBefore || tokensAfter) {
+      var stats = document.createElement('div');
+      stats.className = 'compaction-stats';
+
+      var beforeStat = document.createElement('span');
+      beforeStat.className = 'compaction-stat';
+      beforeStat.innerHTML = '<span class="compaction-stat__label">Before: </span><span class="compaction-stat__val before">' + fmtNum(tokensBefore) + ' tokens (' + Math.round((tokensBefore / 32000) * 100) + '%)</span>';
+      stats.appendChild(beforeStat);
+
+      var afterStat = document.createElement('span');
+      afterStat.className = 'compaction-stat';
+      afterStat.innerHTML = '<span class="compaction-stat__label">After: </span><span class="compaction-stat__val after">' + fmtNum(tokensAfter) + ' tokens (' + Math.round((tokensAfter / 32000) * 100) + '%)</span>';
+      stats.appendChild(afterStat);
+
+      card.appendChild(stats);
+    }
+
+    // Facts extracted
+    if (Array.isArray(factsExtracted) && factsExtracted.length > 0) {
+      var factsDiv = document.createElement('div');
+      factsDiv.className = 'compaction-facts';
+      var factsHeader = document.createElement('div');
+      factsHeader.className = 'td-section__header';
+      factsHeader.textContent = 'Facts extracted: ' + factsExtracted.length;
+      factsDiv.appendChild(factsHeader);
+
+      var showCount = Math.min(factsExtracted.length, 5);
+      for (var i = 0; i < showCount; i++) {
+        var f = factsExtracted[i];
+        var fe = document.createElement('div');
+        fe.className = 'compaction-fact';
+        fe.textContent = '"' + (f.fact || JSON.stringify(f)) + '" (' + (f.category || '?') + ')';
+        factsDiv.appendChild(fe);
+      }
+      if (factsExtracted.length > showCount) {
+        var more = document.createElement('div');
+        more.className = 'compaction-fact';
+        more.style.color = 'var(--ink-dim)';
+        more.textContent = '... and ' + (factsExtracted.length - showCount) + ' more';
+        factsDiv.appendChild(more);
+      }
+      card.appendChild(factsDiv);
+    }
+
+    // Summary
+    var summaryText = (entry.summary || entry.message || '').replace(/^Previously:\s*/i, '');
+    if (summaryText) {
+      var summary = document.createElement('div');
+      summary.className = 'compaction-summary';
+      summary.textContent = summaryText;
+      card.appendChild(summary);
+    }
+
+    // Rounds info
+    if (roundsCompacted.length > 0) {
+      var roundsInfo = document.createElement('div');
+      roundsInfo.className = 'compaction-rounds';
+      roundsInfo.textContent = 'History compressed: rounds ' + roundsCompacted[0] + '-' + roundsCompacted[roundsCompacted.length - 1] + ' → summary';
+      card.appendChild(roundsInfo);
+    }
+
+    return card;
+  }
+
+  function formatArgs(args) {
+    if (!args || typeof args !== 'object') return '';
+    return Object.entries(args).map(([k, v]) => k + ': ' + JSON.stringify(v)).join(', ');
+  }
+
+  function formatResult(tc) {
+    const span = document.createElement('span');
+    const result = tc.result;
+
+    if (tc.name === 'roll_dice') {
+      const inner = document.createElement('span');
+      inner.className = 'dice-roll';
+      const sides = tc.args && tc.args.sides ? tc.args.sides : '?';
+      inner.textContent = '➠ ' + result + (sides ? ' (d' + sides + ')' : '');
+      span.appendChild(inner);
+    } else if (tc.name === 'resolve_action') {
+      const inner = document.createElement('span');
+      if (typeof result === 'string') {
+        const isSuccess = result.toLowerCase().includes('success');
+        inner.className = isSuccess ? 'action-success' : 'action-fail';
+        inner.textContent = result;
+      } else {
+        inner.textContent = JSON.stringify(result);
+      }
+      span.appendChild(inner);
+    } else {
+      span.textContent = typeof result === 'string' ? result : JSON.stringify(result);
+    }
+    return span;
+  }
+
+  // Scroll tracking
+  $('#log-scroll').addEventListener('scroll', function() {
+    const atBottom = this.scrollTop + this.clientHeight >= this.scrollHeight - 30;
+    userScrolled = !atBottom;
+  });
+
+  // Context bar
+  function updateContextBar(state) {
+    // Estimate context tokens from log
+    const log = state.log || [];
+    let totalChars = 0;
+    log.forEach(entry => {
+      totalChars += (entry.message || '').length;
+      totalChars += (entry.reasoning || '').length;
+      if (entry.tool_calls) {
+        entry.tool_calls.forEach(tc => {
+          totalChars += JSON.stringify(tc).length;
+        });
+      }
+    });
+    // Add system prompts
+    const agents = state.agents || {};
+    Object.values(agents).forEach(a => {
+      totalChars += (a.system_prompt || '').length;
+    });
+
+    const estimatedTokens = Math.ceil(totalChars / 4);
+    const modelWindow = 32000; // conservative estimate
+    const pct = Math.min(100, Math.round((estimatedTokens / modelWindow) * 100));
+
+    const fill = $('#context-fill');
+    fill.style.width = pct + '%';
+    fill.className = 'context-bar__fill' + (pct > 80 ? ' danger' : pct > 50 ? ' warn' : '');
+    $('#context-label').textContent = 'Context: ~' + fmtNum(estimatedTokens) + ' / ' + fmtNum(modelWindow) + ' tokens';
+
+    // Update breakdown if open
+    if (contextBreakdownOpen) renderContextBreakdown(state);
+  }
+
+  function renderContextBreakdown(state) {
+    var el = $('#context-breakdown');
+    el.innerHTML = '';
+
+    // Get breakdown from most recent log entry with context_estimate
+    var log = state.log || [];
+    var breakdown = null;
+    var total = 0;
+    for (var i = log.length - 1; i >= 0; i--) {
+      if (log[i].context_estimate && log[i].context_estimate.breakdown) {
+        breakdown = log[i].context_estimate.breakdown;
+        total = log[i].context_estimate.total || 0;
+        break;
+      }
+    }
+
+    var title = document.createElement('div');
+    title.className = 'context-breakdown__title';
+    title.textContent = 'Context Breakdown' + (total ? ' (' + fmtNum(total) + ' tokens)' : '');
+    el.appendChild(title);
+
+    if (!breakdown) {
+      var hint = document.createElement('div');
+      hint.className = 'context-breakdown__hint';
+      hint.textContent = 'No detailed breakdown available yet. Play a few turns to see context allocation.';
+      el.appendChild(hint);
+      return;
+    }
+
+    var modelWindow = 32000;
+    var categories = [
+      { key: 'system', label: 'System prompt', color: 'system' },
+      { key: 'tools', label: 'Tool schemas', color: 'tools' },
+      { key: 'history', label: 'History', color: 'history' },
+      { key: 'facts', label: 'World facts', color: 'facts' },
+      { key: 'notes', label: 'Agent notes', color: 'notes' },
+    ];
+
+    categories.forEach(function(cat) {
+      var val = breakdown[cat.key] || 0;
+      if (val === 0) return;
+      var pct = Math.round((val / modelWindow) * 100);
+      var row = document.createElement('div');
+      row.className = 'token-bar-row';
+      var label = document.createElement('span');
+      label.className = 'token-bar-label';
+      label.textContent = cat.label;
+      var bar = document.createElement('div');
+      bar.className = 'token-bar';
+      var barFill = document.createElement('div');
+      barFill.className = 'token-bar__fill ' + cat.color;
+      barFill.style.width = Math.min(100, pct) + '%';
+      bar.appendChild(barFill);
+      var valSpan = document.createElement('span');
+      valSpan.className = 'token-bar-val';
+      valSpan.textContent = fmtNum(val);
+      row.appendChild(label);
+      row.appendChild(bar);
+      row.appendChild(valSpan);
+      el.appendChild(row);
+    });
+
+    var totalPct = Math.round((total / modelWindow) * 100);
+    if (totalPct > 70) {
+      var hint = document.createElement('div');
+      hint.className = 'context-breakdown__hint';
+      hint.textContent = 'Context is ' + totalPct + '% full. Compaction will trigger soon — facts will be extracted and history summarized.';
+      el.appendChild(hint);
+    }
+  }
+
+  // ---- Memory Panel ----
+  function renderMemory(state) {
+    const facts = state.facts || {};
+    const entries = Object.entries(facts);
+    $('#memory-count').textContent = '(' + entries.length + ')';
+
+    // Build filter buttons
+    const filterEl = $('#memory-filter');
+    if (filterEl.children.length === 0) {
+      FACT_CATEGORIES.forEach(cat => {
+        const btn = document.createElement('button');
+        btn.textContent = cat;
+        btn.classList.toggle('active', cat === activeMemoryFilter);
+        btn.addEventListener('click', () => {
+          activeMemoryFilter = cat;
+          filterEl.querySelectorAll('button').forEach(b => b.classList.toggle('active', b.textContent === cat));
+          renderMemoryList(entries);
+        });
+        filterEl.appendChild(btn);
+      });
+    }
+
+    renderMemoryList(entries);
+  }
+
+  function renderMemoryList(entries) {
+    const list = $('#memory-list');
+    list.innerHTML = '';
+    if (memoryCollapsed) {
+      list.classList.add('collapsed');
+      return;
+    }
+    list.classList.remove('collapsed');
+
+    entries.forEach(([fid, fact]) => {
+      const cat = (fact.category || 'world').toLowerCase();
+      if (activeMemoryFilter !== 'all' && cat !== activeMemoryFilter) return;
+
+      const item = document.createElement('div');
+      item.className = 'fact-item';
+      item.dataset.cat = cat;
+
+      const catDiv = document.createElement('div');
+      catDiv.className = 'fact-item__cat';
+      catDiv.textContent = cat;
+
+      const textDiv = document.createElement('div');
+      textDiv.className = 'fact-item__text';
+      textDiv.textContent = fact.fact || fact.text || fact.content || JSON.stringify(fact);
+
+      const roundDiv = document.createElement('div');
+      roundDiv.className = 'fact-item__round';
+      roundDiv.textContent = fact.round ? 'Round ' + fact.round : '';
+
+      item.appendChild(catDiv);
+      item.appendChild(textDiv);
+      item.appendChild(roundDiv);
+      list.appendChild(item);
+    });
+
+    if (list.children.length === 0) {
+      const empty = document.createElement('div');
+      empty.className = 'fact-item__text';
+      empty.style.padding = '0.5rem';
+      empty.textContent = 'No facts extracted yet.';
+      list.appendChild(empty);
+    }
+  }
+
+  // ---- Architecture Panel ----
+  function renderArchitecture(state) {
+    var body = $('#arch-body');
+    if (archCollapsed) return; // lazy — don't render if collapsed
+    body.innerHTML = '';
+
+    var agents = state.agents || {};
+    var order = state.agent_order || [];
+    var facts = state.facts || {};
+    var dmAgent = null;
+    var playerCount = 0;
+    var dmToolCount = 0;
+    var playerToolCount = 0;
+    order.forEach(function(aid) {
+      var a = agents[aid];
+      if (!a) return;
+      if (a.role === 'dm') {
+        dmAgent = a;
+        dmToolCount = (a.tools||[]).length;
+      } else {
+        playerCount++;
+        playerToolCount = (a.tools||[]).length;
+      }
+    });
+
+    // Stats section
+    var stats = [
+      ['Pattern', 'Multi-agent (turn-based)'],
+      ['Agents', order.length + ' (' + (dmAgent ? '1 DM' : '0 DM') + ', ' + playerCount + ' player' + (playerCount !== 1 ? 's' : '') + ')'],
+      ['DM tools', String(dmToolCount)],
+      ['Player tools', String(playerToolCount)],
+    ];
+    if (state.rulebook_name) {
+      stats.push(['Rulebook', state.rulebook_name + ' (' + (state.rulebook_chunks || 0) + ' chunks)']);
+    }
+    stats.push(['Memory', Object.keys(facts).length + ' facts']);
+
+    // Estimate context from last log entry
+    var log = state.log || [];
+    var lastEntry = log.length > 0 ? log[log.length - 1] : null;
+    var ctxEst = lastEntry && lastEntry.context_estimate ? lastEntry.context_estimate : null;
+    if (ctxEst) {
+      var total = ctxEst.total || 0;
+      stats.push(['Context', '~' + fmtNum(total) + ' / 32k tokens']);
+    }
+
+    stats.forEach(function(row) {
+      var el = document.createElement('div');
+      el.className = 'arch-stat-row';
+      var label = document.createElement('span');
+      label.textContent = row[0];
+      var val = document.createElement('span');
+      val.className = 'arch-stat-val';
+      val.textContent = row[1];
+      el.appendChild(label);
+      el.appendChild(val);
+      body.appendChild(el);
+    });
+
+    // 12-Factor scorecard
+    var scoreData = score12Factors(state);
+    var scoreDiv = document.createElement('div');
+    scoreDiv.className = 'arch-score';
+    var scoreHeader = document.createElement('div');
+    scoreHeader.className = 'arch-score__header';
+    scoreHeader.textContent = '12-Factor Score: ' + scoreData.score + '/12';
+    scoreDiv.appendChild(scoreHeader);
+
+    scoreData.results.forEach(function(r) {
+      var row = document.createElement('div');
+      row.className = 'arch-factor';
+      var icon = document.createElement('span');
+      icon.className = 'arch-factor__icon ' + (r.pass ? 'pass' : 'fail');
+      icon.textContent = r.pass ? '✓' : '✗';
+      var name = document.createElement('span');
+      name.className = 'arch-factor__name' + (r.pass ? ' pass' : '');
+      name.textContent = r.name;
+      row.appendChild(icon);
+      row.appendChild(name);
+      scoreDiv.appendChild(row);
+    });
+
+    body.appendChild(scoreDiv);
+  }
+
+  window.DND = {
+    toggleMemory: function() {
+      memoryCollapsed = !memoryCollapsed;
+      $('#memory-chevron').textContent = memoryCollapsed ? '▶' : '▼';
+      if (campaignState) renderMemory(campaignState);
+    },
+    toggleArch: function() {
+      archCollapsed = !archCollapsed;
+      $('#arch-chevron').textContent = archCollapsed ? '▶' : '▼';
+      $('#arch-body').classList.toggle('collapsed', archCollapsed);
+      if (!archCollapsed && campaignState) renderArchitecture(campaignState);
+    },
+    toggleContextBreakdown: function() {
+      contextBreakdownOpen = !contextBreakdownOpen;
+      $('#context-breakdown').classList.toggle('open', contextBreakdownOpen);
+      if (contextBreakdownOpen && campaignState) renderContextBreakdown(campaignState);
+    }
+  };
+
+  // ---- Controls Panel ----
+  function renderControls(state) {
+    const status = state.status || 'active';
+    const isActive = status === 'active';
+    const isPaused = status === 'paused';
+    const isEnded = status === 'ended';
+
+    // Next turn button
+    const nextBtn = $('#btn-next');
+    nextBtn.disabled = !isActive || advancing;
+    nextBtn.textContent = advancing ? 'Generating...' : 'Next Turn';
+    nextBtn.className = 'next-turn-btn' + (advancing ? ' advancing' : '');
+
+    // Campaign info
+    $('#info-round').textContent = state.current_round;
+    $('#info-agents').textContent = (state.agent_order || []).length;
+    $('#info-turns').textContent = (state.log || []).length;
+    $('#info-status').textContent = status.charAt(0).toUpperCase() + status.slice(1);
+
+    // Inference meter
+    let totalCost = 0;
+    let totalTokens = 0;
+    (state.log || []).forEach(entry => {
+      totalCost += entry.cost_cents || 0;
+      totalTokens += (entry.tokens_in || 0) + (entry.tokens_out || 0);
+    });
+    const maxBudget = 100; // $1.00 budget for the meter
+    const costPct = Math.min(100, Math.round((totalCost / maxBudget) * 100));
+    const inferFill = $('#inference-fill');
+    inferFill.style.width = costPct + '%';
+    inferFill.className = 'inference-meter__fill' + (costPct > 80 ? ' danger' : costPct > 50 ? ' warn' : '');
+    $('#inference-cost').textContent = '$' + (totalCost / 100).toFixed(2);
+    $('#inference-tokens').textContent = fmtNum(totalTokens) + ' tokens';
+
+    // Action buttons
+    const actionRow = $('#action-row');
+    actionRow.innerHTML = '';
+    if (isActive) {
+      const pauseBtn = document.createElement('button');
+      pauseBtn.className = 'btn-pause';
+      pauseBtn.textContent = 'Pause';
+      pauseBtn.addEventListener('click', () => setStatus('paused'));
+      actionRow.appendChild(pauseBtn);
+
+      const endBtn = document.createElement('button');
+      endBtn.className = 'btn-end';
+      endBtn.textContent = 'End Campaign';
+      endBtn.addEventListener('click', () => {
+        if (confirm('End this campaign? This cannot be undone.')) setStatus('ended');
+      });
+      actionRow.appendChild(endBtn);
+    } else if (isPaused) {
+      const resumeBtn = document.createElement('button');
+      resumeBtn.className = 'btn-resume';
+      resumeBtn.textContent = 'Resume';
+      resumeBtn.addEventListener('click', () => setStatus('active'));
+      actionRow.appendChild(resumeBtn);
+
+      const endBtn = document.createElement('button');
+      endBtn.className = 'btn-end';
+      endBtn.textContent = 'End Campaign';
+      endBtn.addEventListener('click', () => {
+        if (confirm('End this campaign? This cannot be undone.')) setStatus('ended');
+      });
+      actionRow.appendChild(endBtn);
+    } else if (isEnded) {
+      const msg = document.createElement('span');
+      msg.style.cssText = 'font-size:0.8rem;color:var(--ink-dim);padding:0.4rem 0;';
+      msg.textContent = 'Campaign ended.';
+      actionRow.appendChild(msg);
+    }
+  }
+
+  // ---- Status change ----
+  async function setStatus(newStatus) {
+    if (!code) return;
+    try {
+      const res = await fetch(BASE + '/' + code + '/status', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status: newStatus }),
+      });
+      if (res.ok) {
+        if (newStatus === 'paused') stopAutoplay();
+        pollState();
+      } else {
+        const data = await res.json();
+        toast(data.error || 'Failed');
+      }
+    } catch (e) { toast('Network error'); }
+  }
+
+  // ---- Advance turn ----
+  $('#btn-next').addEventListener('click', advanceTurn);
+
+  async function advanceTurn() {
+    if (!code || advancing) return;
+    if (campaignState && campaignState.status !== 'active') return;
+
+    advancing = true;
+    renderControls(campaignState);
+
+    try {
+      const res = await fetch(BASE + '/' + code + '/advance', { method: 'POST' });
+      const data = await res.json();
+      if (!res.ok) {
+        toast(data.error || 'Error advancing turn');
+      }
+      await pollState();
+    } catch (e) {
+      toast('Network error');
+    } finally {
+      advancing = false;
+      if (campaignState) renderControls(campaignState);
+    }
+  }
+
+  // ---- Auto-play ----
+  $('#chk-autoplay').addEventListener('change', function() {
+    autoplayOn = this.checked;
+    localStorage.setItem('dnd-autoplay', autoplayOn);
+    if (autoplayOn) startAutoplay();
+    else stopAutoplay();
+  });
+
+  $('#rng-speed').addEventListener('input', function() {
+    autoplaySpeed = parseInt(this.value, 10);
+    $('#speed-val').textContent = autoplaySpeed + 's';
+    localStorage.setItem('dnd-speed', autoplaySpeed);
+    if (autoplayOn) { stopAutoplay(); startAutoplay(); }
+  });
+
+  function startAutoplay() {
+    stopAutoplay();
+    autoplayTimer = setInterval(() => {
+      if (!advancing && campaignState && campaignState.status === 'active') {
+        advanceTurn();
+      }
+    }, autoplaySpeed * 1000);
+  }
+
+  function stopAutoplay() {
+    if (autoplayTimer) { clearInterval(autoplayTimer); autoplayTimer = null; }
+  }
+
+  // ---- X-ray mode ----
+  $('#xray-check').addEventListener('change', function() {
+    xrayMode = this.checked;
+    localStorage.setItem('dnd-xray', xrayMode);
+    // Force full re-render of the log to apply x-ray state
+    renderedLogCount = 0;
+    $('#log-scroll').querySelectorAll('.turn-card').forEach(function(c) { c.remove(); });
+    if (campaignState) renderLog(campaignState);
+  });
+
+  // ---- New Campaign ----
+  $('#btn-new-campaign').addEventListener('click', function() {
+    stopAutoplay();
+    if (pollTimer) { clearInterval(pollTimer); pollTimer = null; }
+    code = null;
+    campaignState = null;
+    renderedLogCount = 0;
+    lastSeq = -1;
+    advancing = false;
+    $('#log-scroll').querySelectorAll('.turn-card').forEach(function(c) { c.remove(); });
+    $('#log-empty').style.display = '';
+    $('#roster-list').innerHTML = '';
+    $('#memory-list').innerHTML = '';
+    $('#app').classList.remove('active');
+    $('#top-bar').style.display = 'none';
+    $('#mobile-tabs').style.display = 'none';
+    $('#setup-screen').classList.remove('hidden');
+    history.replaceState(null, '', location.pathname);
+  });
+
+  // ---- Export ----
+  $('#btn-export-json').addEventListener('click', async () => {
+    if (!code) return;
+    try {
+      const res = await fetch(BASE + '/' + code + '/export');
+      const data = await res.json();
+
+      // Enrich with transparency sections
+      var scoreData = campaignState ? score12Factors(campaignState) : null;
+      var enriched = {
+        _meta: {
+          format: 'Agentic D&D Campaign Export',
+          version: '2.0',
+          description: 'Full campaign log with agent architecture metadata. Each turn includes tool calls, reasoning, token usage, and context estimates.',
+          exported_at: new Date().toISOString(),
+        },
+        _architecture: {
+          pattern: 'multi-agent-turn-based',
+          agent_count: (data.agents || []).length,
+          dm_tools: ['roll_dice','create_npc','lookup_rule','view_npc_sheet','set_scene','resolve_action','remember_fact','recall_facts','take_note','read_notes'],
+          player_tools: ['roll_dice','take_note','read_notes'],
+          twelve_factor_score: scoreData ? (scoreData.score + '/12') : 'N/A',
+          twelve_factor_results: scoreData ? scoreData.results : [],
+        },
+      };
+      if (campaignState && campaignState.rulebook_name) {
+        enriched._rag_config = {
+          rulebook: campaignState.rulebook_name,
+          chunks: campaignState.rulebook_chunks || 0,
+          search_method: 'keyword + title matching',
+          top_k: 3,
+        };
+      }
+      // Merge enriched sections with original data
+      var exported = Object.assign(enriched, data);
+      downloadBlob(JSON.stringify(exported, null, 2), 'campaign-' + code + '.json', 'application/json');
+      toast('JSON exported');
+    } catch (e) { toast('Export failed'); }
+  });
+
+  $('#btn-export-md').addEventListener('click', async () => {
+    if (!code) return;
+    try {
+      const res = await fetch(BASE + '/' + code + '/export');
+      const data = await res.json();
+      const md = buildMarkdownExport(data);
+      downloadBlob(md, 'campaign-' + code + '.md', 'text/markdown');
+      toast('Markdown exported');
+    } catch (e) { toast('Export failed'); }
+  });
+
+  function downloadBlob(content, filename, type) {
+    const blob = new Blob([content], { type: type });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
+
+  function buildMarkdownExport(data) {
+    let md = '# ' + (data.campaign || 'Campaign') + '\n\n';
+    md += '**Code:** ' + (data.code || '') + '  \n';
+    md += '**Rounds:** ' + (data.total_rounds || 0) + '  \n';
+    md += '**Agents:** ' + (data.agents || []).map(a => a.name + ' (' + a.role + ')').join(', ') + '\n\n';
+
+    // Architecture overview
+    md += '## Architecture\n\n';
+    md += '- **Pattern:** Multi-agent (turn-based)\n';
+    md += '- **Agents:** ' + (data.agents || []).length + '\n';
+    var dmAgent = (data.agents || []).find(a => a.role === 'dm');
+    if (dmAgent) md += '- **DM Tools:** ' + (dmAgent.tools || []).join(', ') + '\n';
+    var playerAgent = (data.agents || []).find(a => a.role === 'player');
+    if (playerAgent) md += '- **Player Tools:** ' + (playerAgent.tools || []).join(', ') + '\n';
+    if (campaignState && campaignState.rulebook_name) {
+      md += '- **Rulebook:** ' + campaignState.rulebook_name + ' (' + (campaignState.rulebook_chunks || 0) + ' chunks)\n';
+    }
+
+    // 12-factor score
+    if (campaignState) {
+      var scoreData = score12Factors(campaignState);
+      md += '\n### 12-Factor Score: ' + scoreData.score + '/12\n\n';
+      scoreData.results.forEach(function(r) {
+        md += (r.pass ? '- [x] ' : '- [ ] ') + r.name + '\n';
+      });
+    }
+
+    md += '\n---\n\n## Campaign Log\n\n';
+
+    (data.turns || []).forEach(turn => {
+      const agent = (data.agents || []).find(a => a.id === turn.agent_id) || {};
+      md += '### ' + (agent.name || turn.agent_id) + ' — Round ' + turn.round + '\n\n';
+      md += (turn.message || '') + '\n\n';
+
+      if (turn.whispers_received && turn.whispers_received.length) {
+        turn.whispers_received.forEach(w => {
+          md += '> *Whisper: "' + (w.text || '') + '"*\n\n';
+        });
+      }
+
+      if (turn.tool_calls && turn.tool_calls.length) {
+        md += '<details><summary>Tool calls (' + turn.tool_calls.length + ')</summary>\n\n';
+        turn.tool_calls.forEach(tc => {
+          md += '- `' + tc.name + '(' + JSON.stringify(tc.args) + ')` → ' + JSON.stringify(tc.result) + '\n';
+        });
+        md += '\n</details>\n\n';
+      }
+
+      if (turn.tokens_in || turn.tokens_out) {
+        md += '*Tokens: ' + (turn.tokens_in || 0) + ' in / ' + (turn.tokens_out || 0) + ' out*\n\n';
+      }
+
+      md += '---\n\n';
+    });
+
+    if (data.facts && Object.keys(data.facts).length > 0) {
+      md += '## World Facts\n\n';
+      Object.entries(data.facts).forEach(([fid, fact]) => {
+        md += '- **' + (fact.category || 'fact') + '**: ' + (fact.fact || fact.text || fact.content || JSON.stringify(fact)) + '\n';
+      });
+      md += '\n';
+    }
+
+    // Agent system prompts
+    if (data.agents && data.agents.some(a => a.system_prompt)) {
+      md += '## Agent System Prompts\n\n';
+      data.agents.forEach(function(a) {
+        if (a.system_prompt) {
+          md += '### ' + a.name + ' (' + a.role + ')\n\n';
+          md += '```markdown\n' + a.system_prompt + '\n```\n\n';
+        }
+      });
+    }
+
+    return md;
+  }
+
+  // ----------------------------------------------------------------
+  // Boot
+  // ----------------------------------------------------------------
+  const hashCode = readHash();
+  if (hashCode) {
+    code = hashCode;
+    enterCampaign();
+  }
+
+})();
+</script>
+</body>
+</html>
