@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agentic D&D — The Multiverse School</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/static/css/agentic-dnd.css">
+</head>
+<body>
+
+<!-- ============================================================
+     SETUP SCREEN
+     ============================================================ -->
+<div class="setup" id="setup-screen">
+  <div class="setup__header">
+    <h1>Agentic D&D</h1>
+    <p>Drop in character sheets. Watch your agents come alive.</p>
+  </div>
+
+  <div class="field-group">
+    <label for="inp-campaign-name">Campaign Name</label>
+    <input type="text" id="inp-campaign-name" placeholder="The Caves of Entropy" maxlength="100">
+  </div>
+
+  <div class="field-group">
+    <label>Dungeon Master</label>
+    <div class="char-name-row">
+      <input type="text" id="inp-dm-name" placeholder="Dungeon Master" maxlength="80">
+      <span class="emoji-trigger" id="dm-emoji-trigger" title="Pick emoji">&#127922;</span>
+      <div class="emoji-picker" id="dm-emoji-picker"></div>
+    </div>
+    <textarea id="inp-dm-md" placeholder="Paste your Dungeon Master's character sheet here...
+
+# The Dungeon Master
+
+A creative and fair DM who weaves immersive narratives.
+Favors description over combat. Rewards clever solutions."></textarea>
+    <div class="example-toggle" role="button" tabindex="0" aria-expanded="false" onclick="this.setAttribute('aria-expanded', this.getAttribute('aria-expanded')==='true'?'false':'true')">Need an example?</div>
+    <div class="example-content"># The Dungeon Master
+
+You are a creative, atmospheric DM running a dark fantasy campaign.
+Your narration style is vivid and concise. You favor environmental
+storytelling and reward creative problem-solving over brute force.
+
+## Style
+- Describe scenes with sensory detail (sounds, smells, textures)
+- Present moral ambiguity - no pure good or pure evil
+- Make failure interesting, never just "you fail"
+- Use NPCs as windows into the world's culture
+
+## Rules
+- Use the Cairn 2e SRD for mechanics
+- Critical hits deal max damage
+- Ability checks: roll d20 + modifier vs DC</div>
+  </div>
+
+  <div class="field-group">
+    <label>Characters</label>
+    <div class="char-slots" id="char-slots">
+      <div class="char-slot" data-index="0">
+        <div class="char-slot__header" onclick="this.parentElement.querySelector('.char-slot__body').style.display = this.parentElement.querySelector('.char-slot__body').style.display === 'none' ? '' : 'none'">
+          <span>Character 1</span>
+        </div>
+        <div class="char-slot__body">
+          <div class="char-name-row">
+            <input type="text" class="char-name" placeholder="Character name" maxlength="80">
+            <span class="emoji-trigger char-emoji-trigger" data-index="0" title="Pick emoji">&#9876;&#65039;</span>
+            <div class="emoji-picker char-emoji-picker" data-index="0"></div>
+          </div>
+          <textarea class="char-md" placeholder="# Rogue
+
+A stealthy rogue with a heart of gold and a knack for finding trouble..."></textarea>
+        </div>
+      </div>
+    </div>
+    <div style="display:flex;gap:0.5rem;margin-top:0.5rem;">
+      <button class="btn btn--secondary" id="btn-add-char">+ Add Character</button>
+    </div>
+    <div class="example-toggle" role="button" tabindex="0" aria-expanded="false" onclick="this.setAttribute('aria-expanded', this.getAttribute('aria-expanded')==='true'?'false':'true')">Need an example?</div>
+    <div class="example-content"># Elara the Shadow
+
+A half-elf rogue who grew up on the streets of Thornwall.
+
+## Personality
+- Wry humor, deflects with jokes
+- Fiercely loyal to those who earn her trust
+- Hates authority but respects competence
+
+## Abilities
+- Stealth and lockpicking specialist
+- Dual-wields short swords
+- Can read lips from 60 feet
+
+## Quirk
+Collects keys from every locked door she opens.
+Keeps them on a chain at her belt.</div>
+  </div>
+
+  <div class="field-group">
+    <label>Rulebook (optional)</label>
+    <div class="rulebook-section" id="rulebook-section">
+      <div class="rulebook-name-row">
+        <input type="text" id="inp-rulebook-name" placeholder="Rulebook name (e.g. Cairn 2e)" maxlength="100">
+      </div>
+      <textarea id="inp-rulebook-text" placeholder="Paste your rulebook / SRD text here...
+
+The DM will search these rules during the campaign instead of inventing mechanics. This is the RAG pipeline: your document gets chunked, the DM retrieves relevant chunks, and you see which rules it found."></textarea>
+      <div class="rulebook-actions">
+        <button class="btn btn--secondary" id="btn-try-cairn">Try Cairn 2e (CC-BY-SA)</button>
+        <button class="btn btn--secondary" id="btn-chunk-rulebook">Chunk it</button>
+      </div>
+      <div class="chunker-strategies" id="chunker-strategies"></div>
+      <div class="chunker-fixed-slider" id="chunker-fixed-slider">
+        <label>Chunk size:</label>
+        <input type="range" id="rng-chunk-size" min="200" max="1000" step="50" value="500">
+        <span class="slider-val" id="chunk-size-val">500</span>
+      </div>
+      <div class="chunker-results" id="chunker-results">
+        <div class="chunker-results-header" id="chunker-results-header"></div>
+        <div class="chunker-stats-row" id="chunker-stats-row"></div>
+        <div id="chunker-preview"></div>
+        <div style="margin-top:0.5rem;">
+          <button class="btn btn--secondary" id="btn-rechunk" style="font-size:0.72rem;padding:0.35rem 0.75rem;">Re-chunk with different strategy</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="setup__error" id="setup-error"></div>
+
+  <div class="setup__actions">
+    <button class="btn btn--primary" id="btn-start">Launch Campaign</button>
+  </div>
+</div>
+
+<!-- ============================================================
+     TOP BAR (visible during campaign)
+     ============================================================ -->
+<div class="top-bar" id="top-bar" style="display:none">
+  <span class="top-bar__title" id="tb-title"></span>
+  <span class="top-bar__round" id="tb-round"></span>
+  <span class="top-bar__status" id="tb-status" data-status="active">Active</span>
+  <span class="top-bar__rulebook" id="tb-rulebook" style="display:none"></span>
+  <span class="top-bar__spacer"></span>
+  <span class="top-bar__code" id="tb-code" title="Click to copy campaign code"></span>
+</div>
+
+<!-- ============================================================
+     MOBILE TABS
+     ============================================================ -->
+<div class="mobile-tabs" id="mobile-tabs" style="display:none">
+  <button class="active" data-panel="roster">Roster</button>
+  <button data-panel="campaign">Campaign</button>
+  <button data-panel="controls">Controls</button>
+</div>
+
+<!-- ============================================================
+     THREE-PANEL LAYOUT
+     ============================================================ -->
+<div class="app" id="app">
+
+  <!-- LEFT — Agent Roster -->
+  <div class="panel-left" id="panel-roster">
+    <div class="roster-header">Agents</div>
+    <div class="roster-list" id="roster-list"></div>
+
+    <!-- Memory panel -->
+    <div class="memory-panel" id="memory-panel">
+      <div class="memory-header" id="memory-header" onclick="DND.toggleMemory()">
+        <span>Memory <span id="memory-count">(0)</span></span>
+        <span id="memory-chevron">&#9660;</span>
+      </div>
+      <div class="memory-filter" id="memory-filter"></div>
+      <div class="memory-list" id="memory-list"></div>
+    </div>
+
+    <!-- Architecture panel (Level 1 — collapsed by default) -->
+    <div class="arch-panel" id="arch-panel">
+      <div class="arch-header" id="arch-header" onclick="DND.toggleArch()">
+        <span>Architecture</span>
+        <span id="arch-chevron">&#9654;</span>
+      </div>
+      <div class="arch-body collapsed" id="arch-body"></div>
+    </div>
+  </div>
+
+  <!-- CENTER — Campaign Log -->
+  <div class="panel-center mobile-active" id="panel-campaign">
+    <div class="log-toolbar">
+      <label class="xray-toggle">
+        <input type="checkbox" id="xray-check">
+        X-ray mode
+      </label>
+      <div class="context-bar" id="context-bar" onclick="DND.toggleContextBreakdown()">
+        <div class="context-bar__fill" id="context-fill" style="width:0%"></div>
+        <div class="context-bar__label" id="context-label">Context: idle</div>
+      </div>
+    </div>
+    <div class="context-breakdown" id="context-breakdown"></div>
+    <div class="log-scroll" id="log-scroll">
+      <div class="log-empty" id="log-empty">
+        <p>Press <strong>Next Turn</strong> to begin the campaign.<br>The DM speaks first.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT — Controls -->
+  <div class="panel-right" id="panel-controls">
+
+    <div class="controls-section">
+      <button class="next-turn-btn" id="btn-next">Next Turn</button>
+    </div>
+
+    <div class="controls-section">
+      <div class="controls-section__title">Auto-play</div>
+      <div class="autoplay-row">
+        <label for="chk-autoplay">Auto-advance turns</label>
+        <input type="checkbox" id="chk-autoplay">
+      </div>
+      <div class="speed-row">
+        <label>Speed</label>
+        <input type="range" id="rng-speed" min="2" max="10" step="1" value="5">
+        <span class="speed-val" id="speed-val">5s</span>
+      </div>
+    </div>
+
+    <div class="controls-section">
+      <div class="controls-section__title">Inference</div>
+      <div class="inference-meter">
+        <div class="inference-meter__bar">
+          <div class="inference-meter__fill" id="inference-fill" style="width:0%"></div>
+        </div>
+        <div class="inference-meter__stats">
+          <span id="inference-cost">$0.00</span>
+          <span id="inference-tokens">0 tokens</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="controls-section">
+      <div class="controls-section__title">Campaign</div>
+      <div class="campaign-info">
+        <div class="campaign-info__row"><span>Round</span><span id="info-round">1</span></div>
+        <div class="campaign-info__row"><span>Agents</span><span id="info-agents">0</span></div>
+        <div class="campaign-info__row"><span>Turns</span><span id="info-turns">0</span></div>
+        <div class="campaign-info__row"><span>Status</span><span id="info-status">Active</span></div>
+      </div>
+    </div>
+
+    <div class="controls-section">
+      <div class="controls-section__title">Export</div>
+      <div class="export-row">
+        <button id="btn-export-json">JSON</button>
+        <button id="btn-export-md">Markdown</button>
+      </div>
+    </div>
+
+    <div class="controls-section">
+      <div class="controls-section__title">Actions</div>
+      <div class="action-row" id="action-row">
+        <button class="btn-pause" id="btn-pause">Pause</button>
+        <button class="btn-end" id="btn-end">End Campaign</button>
+      </div>
+      <div class="action-row" style="margin-top:0.35rem;">
+        <button class="btn btn--secondary" id="btn-new-campaign" style="flex:1;">New Campaign</button>
+      </div>
+    </div>
+
+    <div class="controls-section">
+      <div class="controls-section__title">Settings</div>
+      <div class="settings-display">
+        <span>Model: <span id="info-model">inference engine</span></span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- ============================================================
+     SCRIPTS — plain <script> tags, order matters (see js/state.js)
+     ============================================================ -->
+<script src="/static/js/state.js"></script>
+<script src="/static/js/chunker.js"></script>
+<script src="/static/js/chunker-ui.js"></script>
+<script src="/static/js/setup.js"></script>
+<script src="/static/js/roster.js"></script>
+<script src="/static/js/turn-log.js"></script>
+<script src="/static/js/turn-detail.js"></script>
+<script src="/static/js/rag-flow.js"></script>
+<script src="/static/js/context-meter.js"></script>
+<script src="/static/js/memory-panel.js"></script>
+<script src="/static/js/architecture.js"></script>
+<script src="/static/js/game.js"></script>
+<script src="/static/js/export.js"></script>
+<script src="/static/js/app.js"></script>
+</body>
+</html>
