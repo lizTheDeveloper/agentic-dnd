@@ -49,8 +49,6 @@ document.querySelector('#setup-screen').addEventListener('input', () => {
   draftTimer = setTimeout(saveDraft, 500);
 });
 
-// Restore draft on load
-loadDraft();
 
 // ----------------------------------------------------------------
 // Emoji picker
@@ -218,3 +216,7 @@ $('#btn-start').addEventListener('click', async () => {
     $('#btn-start').textContent = 'Launch Campaign';
   }
 });
+
+// Restore draft on load. Runs last so the + Add Character handler above is
+// attached; loadDraft() clicks it to recreate slots 2+.
+loadDraft();
